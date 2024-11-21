@@ -10,7 +10,7 @@
 
 #### Workspace setup ####
 library(tidyverse)
-set.seed(853)
+set.seed(200)
 
 
 #### Simulate data ####
