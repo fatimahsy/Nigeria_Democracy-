@@ -19,29 +19,11 @@ editor:
 #| include: false
 #| warning: false
 #| message: false
-#install.packages("arrow")
-#install.packages("tidyverse")
-#install.packages("haven")
-#install.packages("modelsummary")
-#install.packages("kableExtra")
-#install.packages("rstanarm")
-#install.packages("bayesplot")
-#install.packages("ggplot2")
-#install.packages("brant")
-#install.packages("pscl")
 
-library(arrow)
-library(tidyverse)
-library(haven)
-library(tidyverse)
-library(palmerpenguins)
+#install.packages("rstanarm")
+#install.packages("modelsummary")
 library(modelsummary)
-library(kableExtra)
 library(rstanarm)
-library(bayesplot)
-library(ggplot2)
-library(brant)
-library(pscl)
 
 
 
@@ -79,11 +61,6 @@ entry in the dataset.
 Add graphs, tables and text. Use sub-sub-headings for each outcome
 variable or update the subheading to be singular.
 
-```{r}
-
-
-
-```
 
 
 
@@ -107,13 +84,52 @@ investigate... Background details and diagnostics are included in
 
 # Results
 
-Our results are summarized in 
+Our results are summarized in @tbl-modelresults
 
 ```{r}
 #| echo: false
 #| eval: true
 #| warning: false
 #| message: false
+
+bayesian_model <- readRDS(file = here::here ("models/bayesian_model.rds"))
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| label: tbl-modelresults
+#| tbl-cap: "Summary of the Ordinal Logistic regression model"
+#| warning: false
+
+
+# Install necessary packages if not already installed
+#install.packages("broom.mixed")
+#install.packages("kableExtra")
+
+# Load the packages
+library(broom.mixed)
+library(kableExtra)
+
+# Generate a tidy summary of your Bayesian model
+tidy_summary <- tidy(
+  bayesian_model, 
+  conf.int = TRUE,      # Include credible intervals
+  conf.level = 0.95     # Set confidence level to 95%
+)
+
+# Render the summary table as a nice HTML/LaTeX table
+tidy_summary %>%
+  kable(
+    caption = "Bayesian Model Summary with Credible Intervals",
+    digits = 2,             # Round numbers to 2 decimal places
+    col.names = c("Parameter", "Estimate", "Std. Error", "Lower 95% CI", "Upper 95% CI")  # Rename columns
+  ) %>%
+  kable_styling(
+    full_width = FALSE,
+    bootstrap_options = c("striped", "hover", "condensed")
+  )
+
 
 
 

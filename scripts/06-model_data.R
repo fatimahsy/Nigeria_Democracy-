@@ -20,93 +20,49 @@
 #)
 
 
-#### Modeling: Ordinal Logistic Regression ####
-
 # Load necessary libraries
-install.packages(c("MASS", "broom", "ggplot2"))
-library(MASS)   # For ordinal regression
-library(broom)  # For tidy model outputs
-library(ggplot2)
+install.packages("MASS")
+install.packages("dplyr")
+install.packages("modelsummary")
+install.packges("rstanarm")
+linrary(rstanarm)
+library(MASS)
+library(dplyr)
+library(modelsummary)
 
-# Load the cleaned dataset
-#cleaned_data <- read_parquet("data/02-analysis_data/fully_cleaned_nigeriasurvey.parquet")
+# Read data 
 
-# Ensure variables are factors
-cleaned_data <- cleaned_data %>%
-  mutate(
-    gender = as.factor(gender),
-    urban_rural = as.factor(urban_rural),
-    education = as.factor(education),
-    age_group = as.factor(age_group),
-    corruption_presidency = as.ordered(corruption_presidency)  # Ensure outcome is ordered
-  )
+cleaned_data <- read_parquet("data/02-analysis_data/cleaned_nigeriasurvey.parquet")
+#### Model ####
+cleaned_data$corruption_presidency <- factor(
+  cleaned_data$corruption_presidency,
+  levels = c("None", "Some", "Most", "All"),
+  ordered = TRUE
+)
+
+# Verify the structure
+str(cleaned_data)
 
 # Fit the ordinal logistic regression model
-model <- polr(
-  corruption_presidency ~ education + gender + urban_rural + age_group, 
-  data = cleaned_data, 
-  method = "logistic"
+ordinal_model <- polr(
+  formula = corruption_presidency ~ education + gender + urban_rural + age_group,
+  data = cleaned_data,
+  method = "logistic"  # Logistic link function
 )
 
-# View model summary
-summary(model)
-
-# Tidy model output with coefficients and p-values
-model_results <- tidy(model, conf.int = TRUE)
-print(model_results)
-
-# Save model results to a CSV file
-write.csv(model_results, "models/model_results.csv", row.names = FALSE)
-
-# Calculate odds ratios for easier interpretation
-odds_ratios <- exp(coef(model))
-print(odds_ratios)
-
-# Save odds ratios to a CSV file
-write.csv(odds_ratios, "models/odds_ratios.csv")
-
-#### Model Diagnostics ####
-
-# McFadden's pseudo-R²
-install.packages("DescTools")
-library(DescTools)
-pseudo_r2 <- PseudoR2(model, which = "McFadden")
-cat("McFadden's pseudo-R²:", pseudo_r2, "\n")
-
-# Proportional odds assumption test
-install.packages("VGAM")
-library(VGAM)
-po_test <- vglm(corruption_presidency ~ education + gender + urban_rural + age_group, 
-                family = cumulative(parallel = TRUE), 
-                data = cleaned_data)
-summary(po_test)
-
-#### Visualize Results ####
-
-# Visualize predicted probabilities for education
-install.packages("effects")
-library(effects)
-plot(allEffects(model), main = "Effects of Predictors on Corruption Perception")
-
-# Plot odds ratios
-odds_ratios_df <- data.frame(
-  Predictor = names(odds_ratios),
-  OddsRatio = odds_ratios
+# Fit Bayesian ordinal logistic regression
+bayesian_model <- stan_polr(
+  formula = corruption_presidency ~ education + gender + urban_rural + age_group,
+  data = cleaned_data,
+  prior = R2(0.2),  # Prior for R-squared
+  prior_counts = dirichlet(alpha = 1),  # Dirichlet prior for ordinal response
+  seed = 123  # For reproducibility
 )
 
-ggplot(odds_ratios_df, aes(x = reorder(Predictor, OddsRatio), y = OddsRatio)) +
-  geom_col(fill = "steelblue") +
-  coord_flip() +
-  labs(
-    title = "Odds Ratios of Predictors",
-    x = "Predictors",
-    y = "Odds Ratio"
-  )
-
-# Save plot
-ggsave("models/odds_ratios_plot.png", width = 8, height = 6)
 
 #### Save the Model ####
-saveRDS(model, "models/final_model.rds")
+saveRDS(ordinal_model, file = "models/ordinal_model.rds")
 
 
+# Save the model
+saveRDS(bayesian_model, file = "models/bayesian_model.rds")
