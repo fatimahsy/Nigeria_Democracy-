@@ -19,14 +19,28 @@ editor:
 #| include: false
 #| warning: false
 #| message: false
-
-#install.packages("rstanarm")
+#| label: setup
+#| 
 #install.packages("modelsummary")
+#install.packages("rstanarm")
+#install.packages("dplyr")
+#install.packages("here")
+#install.packages("arrow")
 library(modelsummary)
 library(rstanarm)
+library(dplyr)
+library(here)
+library(arrow)
+library(bayesplot)
+library(ggplot2)
+library(arrow)
+library(here)
 
+library(patchwork)
 
-
+# Load data
+cleaned_data <- read_parquet(here::here("data/02-analysis_data/cleaned_nigeriasurvey.parquet"))
+bayesian_model <- readRDS(file = here::here ("models/bayesian_model.rds"))
 ```
 
 # Introduction
@@ -42,19 +56,157 @@ Why it matters paragraph
 Telegraphing paragraph: The remainder of this paper is structured as
 follows. @sec-data....
 
+We use the statistical programming language R [@citeR]....
+
 # Data {#sec-data}
 
-## Overview
+## Measurement 
 
-We use the statistical programming language R [@citeR].... Our data
-[@shelter].... Following @tellingstories, we consider...
+For this analysis, i use the Afrobarometer Rouund 9, Nigeria, 2023 survey. Afrobarometer conducts surveys that are nationally representative across African nations to capture public perceptions on topics like governance, democracy, and economic issues. The Nigerian Round 9 surveey dataset contains responses from 1,556 people and is refective of the diverse demographic statistics across gender, region, and residence type(urban or rural). The data is freely available on the Afrobarometer website[@afrobarometer2023] and was collected through a multi-stage, stratified sampling method. This is to ensure representativeness and enables analysis of different demographics and socioeconomic indicators. 
 
-Overview text
+Our primary measurement task is to capture public opininon towards economic, political and socioeconomic issues and translate it into actionable intell. The Afrobarometer survey translates these real world perceptions into quantifiable data using survey instruments.The process begins with identifying relevant phenomena in the Nigerian socio-political and economic context, such as public attitudes toward democracy, demand for governance accountability, and perceived economic conditions. These phenomena are operationalized into survey questions that are clear, culturally sensitive, and tailored to elicit meaningful responses.
 
-## Measurement
+For example:
 
-Some paragraphs about how we go from a phenomena in the world to an
-entry in the dataset.
+- Perceptions of Democracy: A phenomenon such as the demand for democracy is operationalized by questions asking respondents whether they prefer democracy over other forms of governance, and whether they believe Nigeria is a democratic nation. These questions are grounded in observable public discourse, historical trends, and policy outcomes.
+- Economic Prosperity: Attitudes toward economic conditions are measured by asking individuals to rate the current state of the economy and their own living standards. These subjective evaluations stem from tangible experiences like inflation, unemployment, or changes in public service delivery.
+
+Each survey question acts as a data proxy for these complex real-world dynamics, reducing them to quantifiable variables while maintaining their conceptual integrity.
+
+This dataset captures a unique moment in Nigeria's socio-political landscape, reflecting how citizens perceive democracy and governance in the context of ongoing economic and political challenges. Alternative datasets, such as Nigeria’s national statistics or World Bank survey data, could provide economic indicators but lack the granularity of Afrobarometer’s public opinion data.
+```{r}
+#| label: fig-urban-rural-distribution
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "Figure 1: Urban vs Rural Respondent Distribution. This bar chart compares the number of respondents residing in urban versus rural areas."
+
+# Plot: Urban vs Rural Respondent Distribution
+cleaned_data %>%
+  count(URBRUR) %>%
+  ggplot(aes(x = URBRUR, y = n, fill = URBRUR)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Urban vs Rural Respondent Distribution",
+    x = "Respondent Location",
+    y = "Number of Respondents"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(
+    values = c("Urban Residents" = "blue", "Rural Residents" = "gray")
+  ) +
+  guides(fill = "none")
+
+```
+
+```{r}
+#| label: fig-corruption-presidency
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "Figure 2: Perceived Corruption in the Presidency. This bar chart shows the distribution of respondents' perceptions of corruption in the presidency."
+
+# Plot: Perceived Corruption in the Presidency
+cleaned_data %>%
+  count(corruption_presidency) %>%
+  ggplot(aes(x = corruption_presidency, y = n, fill = corruption_presidency)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Perceived Corruption in the Presidency",
+    x = "Perception of Corruption",
+    y = "Number of Respondents"
+  ) +
+  theme_minimal() +
+  scale_fill_manual(
+    values = c("No Corruption" = "green", 
+               "Some Corruption" = "yellow", 
+               "High Corruption" = "red", 
+               "All Corrupt" = "purple")
+  ) +
+  guides(fill = "none")
+
+```
+```{r}
+#| label: fig-age-group-distribution
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "Figure 3: Age Group Distribution. This bar chart displays the number of respondents in each age group."
+
+# Plot: Age Group Distribution
+cleaned_data %>%
+  count(age_group) %>%
+  ggplot(aes(x = age_group, y = n, fill = age_group)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Age Group Distribution",
+    x = "Age Group",
+    y = "Number of Respondents"
+  ) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set3") +
+  guides(fill = "none")
+
+
+
+```
+```{r}
+#| label: fig-trust-political-institutions
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "Figure 4: Distribution of Trust in Political Institutions. This histogram shows how respondents rated their trust in political institutions, from low to high trust."
+
+library(haven)
+
+# Convert haven_labelled variables to appropriate types
+cleaned_data <- cleaned_data %>%
+  mutate(
+    Q38A = as.numeric(as.character(Q38A)), # Convert to numeric
+    Q94 = as.numeric(as.character(Q94)),   # Convert to numeric
+    Q101 = as.numeric(as.character(Q101)), # Convert to numeric if needed
+    URBRUR = as_factor(URBRUR),            # Convert to factor
+    corruption_presidency = as_factor(corruption_presidency), # Convert to factor
+    urban_rural = as_factor(urban_rural)   # Convert to factor
+  )
+
+# Plot: Trust in Political Institutions
+ggplot(cleaned_data, aes(x = Q38A)) +
+  geom_histogram(binwidth = 1, fill = "skyblue", color = "black") +
+  labs(
+    title = "Trust in Political Institutions",
+    x = "Trust Level (1 = Low, 5 = High)",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+
+```
+```{r}
+#| label: fig-demand-democracy
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "Figure 5: Distribution of Demand for Democracy. This histogram illustrates respondents' levels of demand for democracy, with higher values reflecting stronger democratic preferences."
+
+# Plot: Demand for Democracy
+ggplot(cleaned_data, aes(x = Q94)) +
+  geom_histogram(binwidth = 1, fill = "orange", color = "black") +
+  labs(
+    title = "Demand for Democracy",
+    x = "Demand Level (1 = Low, 5 = High)",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+
+```
+
+
+## Variables of Interest 
 
 ## Outcome variables
 
@@ -73,10 +225,9 @@ a few into one if they go together naturally.
 
 # Model
 
-The goal of our modelling strategy is twofold. Firstly,...
+To investigate the relationship between demographic characteristics and different perceptions of corruption in Nigeria, we use a Bayesian Ordinal Logistic regression model. 
 
-Here we briefly describe the Bayesian analysis model used to
-investigate... Background details and diagnostics are included in
+ Background details and diagnostics are included in
 [Appendix -@sec-model-details].
 
 ## Model set-up
@@ -102,38 +253,28 @@ bayesian_model <- readRDS(file = here::here ("models/bayesian_model.rds"))
 #| tbl-cap: "Summary of the Ordinal Logistic regression model"
 #| warning: false
 
-
-# Install necessary packages if not already installed
 #install.packages("broom.mixed")
 #install.packages("kableExtra")
 
-# Load the packages
 library(broom.mixed)
 library(kableExtra)
 
-# Generate a tidy summary of your Bayesian model
-tidy_summary <- tidy(
-  bayesian_model, 
-  conf.int = TRUE,      # Include credible intervals
-  conf.level = 0.95     # Set confidence level to 95%
-)
+# Extract summary
+model_summary <- broom.mixed::tidy(bayesian_model)
 
-# Render the summary table as a nice HTML/LaTeX table
-tidy_summary %>%
-  kable(
-    caption = "Bayesian Model Summary with Credible Intervals",
-    digits = 2,             # Round numbers to 2 decimal places
-    col.names = c("Parameter", "Estimate", "Std. Error", "Lower 95% CI", "Upper 95% CI")  # Rename columns
-  ) %>%
-  kable_styling(
-    full_width = FALSE,
-    bootstrap_options = c("striped", "hover", "condensed")
-  )
-
+# Render as a table
+knitr::kable(
+  model_summary,
+  caption = "Summary of the Bayesian Model",
+  digits = 2
+) %>%
+  kableExtra::kable_styling()
 
 
 
 ```
+
+
 
 # Discussion
 
@@ -164,10 +305,178 @@ Weaknesses and next steps should also be included.
 
 # Model details {#sec-model-details}
 
+## Posterior Predictive Check 
+
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-ppcheck
+#| fig-cap: "Posterior Predictive Check for the Bayesian ordinal logistic regression model."
+
+# Load the Bayesian model
+bayesian_model <- readRDS(file = here::here("models/bayesian_model.rds"))
+
+# Posterior Predictive Check
+pp_check(bayesian_model) +
+  theme_classic() +
+  labs(
+    title = "Posterior Predictive Check",
+    x = "Observed Data",
+    y = "Density"
+  )
+
+```
+
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-posteriorvsprior-education
+#| fig-cap: "Posterior vs Prior Comparison for Education Parameters."
+
+# Education Parameters
+education_params <- c(
+  "educationInformal schooling only",
+  "educationSome primary schooling",
+  "educationPrimary school completed",
+  "educationSome secondary schooling",
+  "educationSecondary school completed",
+  "educationPost-secondary qualifications",
+  "educationSome university",
+  "educationUniversity completed",
+  "educationPost-graduate"
+)
+
+posterior_vs_prior(bayesian_model, pars = education_params, group_by_parameter = TRUE) +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set1") +
+  theme(
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  ) +
+  labs(
+    title = "Posterior vs Prior Comparison (Education Parameters)",
+    x = "Parameter Value",
+    y = "Density",
+    color = "Distribution"
+  )
+
+
+```
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-posteriorvsprior-demographic
+#| fig-cap: "Posterior vs Prior Comparison for Demographic Parameters."
+
+# Demographic Parameters
+demographic_params <- c(
+  "genderFemale",
+  "urban_ruralRural",
+  "age_group25-34",
+  "age_group35-44",
+  "age_group45-54",
+  "age_group55+"
+)
+
+posterior_vs_prior(bayesian_model, pars = demographic_params, group_by_parameter = TRUE) +
+  theme_minimal() +
+  scale_color_brewer(palette = "Set2") +
+  theme(
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  ) +
+  labs(
+    title = "Posterior vs Prior Comparison (Demographic Parameters)",
+    x = "Parameter Value",
+    y = "Density",
+    color = "Distribution"
+  )
+
+```
 ## Diagnostics
 
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-diagnostic-ppcheck
+#| fig-cap: "Posterior Predictive Check for the Bayesian ordinal logistic regression model."
+
+# Posterior Predictive Check
+pp_check(bayesian_model) +
+  theme_classic() +
+  labs(
+    title = "Posterior Predictive Check",
+    x = "Observed Data",
+    y = "Density"
+  )
+
+```
+
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-diagnostic-traceplot
+#| fig-cap: "Trace plot for selected parameters in the Bayesian ordinal logistic regression model."
+
+# Trace Plot
+mcmc_trace(as.array(bayesian_model), pars = c("educationSome primary schooling", "urban_ruralRural")) +
+  theme_minimal() +
+  labs(
+    title = "Trace Plot for Selected Parameters",
+    x = "Iteration",
+    y = "Parameter Value"
+  )
+
+```
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-diagnostic-rhat
+#| fig-cap: "Rhat values for model convergence in the Bayesian ordinal logistic regression model."
+
+# Rhat Plot
+mcmc_rhat(rhat(bayesian_model)) +
+  theme_minimal() +
+  labs(
+    title = "Rhat Plot",
+    x = "Rhat Values",
+    y = "Parameters"
+  )
+
+```
 
 
+
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-diagnostic-ess
+#| fig-cap: "Effective sample size plot for parameters in the Bayesian ordinal logistic regression model."
+
+# Effective Sample Size Plot
+mcmc_neff(neff_ratio(bayesian_model)) +
+  theme_minimal() +
+  labs(
+    title = "Effective Sample Size Plot",
+    x = "Effective Sample Size Ratio",
+    y = "Parameters"
+  )
+
+```
 \newpage
 
 # References

@@ -43,13 +43,6 @@ cleaned_data$corruption_presidency <- factor(
 # Verify the structure
 str(cleaned_data)
 
-# Fit the ordinal logistic regression model
-ordinal_model <- polr(
-  formula = corruption_presidency ~ education + gender + urban_rural + age_group,
-  data = cleaned_data,
-  method = "logistic"  # Logistic link function
-)
-
 # Fit Bayesian ordinal logistic regression
 bayesian_model <- stan_polr(
   formula = corruption_presidency ~ education + gender + urban_rural + age_group,
@@ -58,10 +51,6 @@ bayesian_model <- stan_polr(
   prior_counts = dirichlet(alpha = 1),  # Dirichlet prior for ordinal response
   seed = 123  # For reproducibility
 )
-
-
-#### Save the Model ####
-saveRDS(ordinal_model, file = "models/ordinal_model.rds")
 
 
 # Save the model

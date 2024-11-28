@@ -85,9 +85,36 @@ cleaned_data <- cleaned_data %>%
 str(cleaned_data)
 summary(cleaned_data)
 
+cleaned_data <- cleaned_data %>%
+  mutate(
+    URBRUR = case_when(
+      URBRUR == 1 ~ "Urban Residents",
+      URBRUR == 2 ~ "Rural Residents",
+      TRUE ~ NA_character_ # Assign NA for unexpected values
+    )
+  )
+cleaned_data <- cleaned_data %>%
+  mutate(
+    urban_rural = case_when(
+      urban_rural == "Urban" ~ "Urban Residents",
+      urban_rural == "Rural" ~ "Rural Residents",
+      TRUE ~ NA_character_ # Assign NA for unexpected values
+    )
+  )
+
+cleaned_data <- cleaned_data %>%
+  mutate(
+    corruption_presidency = case_when(
+      corruption_presidency == "None" ~ "No Corruption",
+      corruption_presidency == "Some" ~ "Some Corruption",
+      corruption_presidency == "Most" ~ "High Corruption",
+      corruption_presidency == "All" ~ "All Corrupt",
+      TRUE ~ NA_character_ # Assign NA for unexpected values
+    )
+  )
+
 #### Save  cleaned data ####
 write_parquet(cleaned_data, "data/02-analysis_data/cleaned_nigeriasurvey.parquet")
 write.csv(cleaned_data, "data/02-analysis_data/cleaned_nigeriasurvey.csv", row.names = FALSE)
-
 
 
