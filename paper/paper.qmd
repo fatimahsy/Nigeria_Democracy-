@@ -20,7 +20,7 @@ editor:
 #| warning: false
 #| message: false
 #| label: setup
-#| 
+
 #install.packages("modelsummary")
 #install.packages("rstanarm")
 #install.packages("dplyr")

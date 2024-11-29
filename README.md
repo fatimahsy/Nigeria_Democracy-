@@ -1,16 +1,16 @@
 # Corruption Perceptions in Nigeria:A Bayesian Approach
 
-##️ 📌Overview
+## 📌Overview
 
 This repository contains all files and code supporting the analysis for the paper. The paper looks into the factors influencing perceptions of corruption in the Nigerian presidency using data from Afrobarometer's 2023 survey. A Bayesian ordinal logistic regression model was employed to analyze the relationship between demographic predictors—such as education, gender, age, and urban/rural residency—and perceptions of corruption.
 
 The paper highlights the importance of education as a significant factor, revealing its strong association with lower perceptions of corruption. Other variables, including gender and urban/rural residency, were also examined for their contributions to corruption perceptions. This repository aims to provide transparency and reproducibility for all steps of the analysis, from data cleaning to modeling and visualization.
 
-## 🌍Motivation 
+## 🌍Motivation
 
-As a Nigerian, i have witnessed firsthand the profound impact of corruption on governance, development, and public trust. According to Transparency International's 2023 Corruption Perception Index, Nigeria ranks 145 out of 180 countries, with a score of 25/100, indicating pervasive corruption in the public sector (Transparency International,2023). 
+As a Nigerian, i have witnessed firsthand the profound impact of corruption on governance, development, and public trust. According to Transparency International's 2023 Corruption Perception Index, Nigeria ranks 145 out of 180 countries, with a score of 25/100, indicating pervasive corruption in the public sector (Transparency International,2023).
 
-This project leverages data from Afrobarometer's Nigeria Round 9 survey to analyze how demographic factors like education, gender, and geographic location influence perceptions of corruption in the presidency. By examining these patterns, i aaim to provide data-driven insights that can inform efforts to rebuild public trust and promote accountability in governance. 
+This project leverages data from Afrobarometer's Nigeria Round 9 survey to analyze how demographic factors like education, gender, and geographic location influence perceptions of corruption in the presidency. By examining these patterns, i aim to provide data-driven insights that can inform efforts to rebuild public trust and promote accountability in governance.
 
 ## 🗂File Structure
 
