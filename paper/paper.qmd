@@ -1,9 +1,9 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Perceptions of Corruption in Nigeria"
+subtitle: "Rural Nigerians and Less Educated  Groups Report Higher Corruption"
 author: 
   - Fatimah Yunusa
-thanks: "Code and data are available at: [https://github.com/RohanAlexander/starter_folder](https://github.com/RohanAlexander/starter_folder)."
+thanks: "Code and data are available at:https://github.com/fatimahsy/Nigeria_Democracy-/tree/main"
 date: today
 date-format: long
 abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
@@ -60,20 +60,56 @@ We use the statistical programming language R [@citeR]....
 
 # Data {#sec-data}
 
-## Measurement 
+## Measurement
 
-For this analysis, i use the Afrobarometer Rouund 9, Nigeria, 2023 survey. Afrobarometer conducts surveys that are nationally representative across African nations to capture public perceptions on topics like governance, democracy, and economic issues. The Nigerian Round 9 surveey dataset contains responses from 1,556 people and is refective of the diverse demographic statistics across gender, region, and residence type(urban or rural). The data is freely available on the Afrobarometer website[@afrobarometer2023] and was collected through a multi-stage, stratified sampling method. This is to ensure representativeness and enables analysis of different demographics and socioeconomic indicators. 
+For this analysis, i use the Afrobarometer Rouund 9, Nigeria, 2023
+survey. Afrobarometer conducts surveys that are nationally
+representative across African nations to capture public perceptions on
+topics like governance, democracy, and economic issues. The Nigerian
+Round 9 surveey dataset contains responses from 1,556 people and is
+refective of the diverse demographic statistics across gender, region,
+and residence type(urban or rural). The data is freely available on the
+Afrobarometer website[@afrobarometer2023] and was collected through a
+multi-stage, stratified sampling method. This is to ensure
+representativeness and enables analysis of different demographics and
+socioeconomic indicators.
 
-Our primary measurement task is to capture public opininon towards economic, political and socioeconomic issues and translate it into actionable intell. The Afrobarometer survey translates these real world perceptions into quantifiable data using survey instruments.The process begins with identifying relevant phenomena in the Nigerian socio-political and economic context, such as public attitudes toward democracy, demand for governance accountability, and perceived economic conditions. These phenomena are operationalized into survey questions that are clear, culturally sensitive, and tailored to elicit meaningful responses.
+Our primary measurement task is to capture public opininon towards
+economic, political and socioeconomic issues and translate it into
+actionable intell. The Afrobarometer survey translates these real world
+perceptions into quantifiable data using survey instruments.The process
+begins with identifying relevant phenomena in the Nigerian
+socio-political and economic context, such as public attitudes toward
+democracy, demand for governance accountability, and perceived economic
+conditions. These phenomena are operationalized into survey questions
+that are clear, culturally sensitive, and tailored to elicit meaningful
+responses.
 
 For example:
 
-- Perceptions of Democracy: A phenomenon such as the demand for democracy is operationalized by questions asking respondents whether they prefer democracy over other forms of governance, and whether they believe Nigeria is a democratic nation. These questions are grounded in observable public discourse, historical trends, and policy outcomes.
-- Economic Prosperity: Attitudes toward economic conditions are measured by asking individuals to rate the current state of the economy and their own living standards. These subjective evaluations stem from tangible experiences like inflation, unemployment, or changes in public service delivery.
+-   Perceptions of Democracy: A phenomenon such as the demand for
+    democracy is operationalized by questions asking respondents whether
+    they prefer democracy over other forms of governance, and whether
+    they believe Nigeria is a democratic nation. These questions are
+    grounded in observable public discourse, historical trends, and
+    policy outcomes.
+-   Economic Prosperity: Attitudes toward economic conditions are
+    measured by asking individuals to rate the current state of the
+    economy and their own living standards. These subjective evaluations
+    stem from tangible experiences like inflation, unemployment, or
+    changes in public service delivery.
 
-Each survey question acts as a data proxy for these complex real-world dynamics, reducing them to quantifiable variables while maintaining their conceptual integrity.
+Each survey question acts as a data proxy for these complex real-world
+dynamics, reducing them to quantifiable variables while maintaining
+their conceptual integrity.
 
-This dataset captures a unique moment in Nigeria's socio-political landscape, reflecting how citizens perceive democracy and governance in the context of ongoing economic and political challenges. Alternative datasets, such as Nigeria’s national statistics or World Bank survey data, could provide economic indicators but lack the granularity of Afrobarometer’s public opinion data.
+This dataset captures a unique moment in Nigeria's socio-political
+landscape, reflecting how citizens perceive democracy and governance in
+the context of ongoing economic and political challenges. Alternative
+datasets, such as Nigeria’s national statistics or World Bank survey
+data, could provide economic indicators but lack the granularity of
+Afrobarometer’s public opinion data.
+
 ```{r}
 #| label: fig-urban-rural-distribution
 #| echo: false
@@ -128,6 +164,7 @@ cleaned_data %>%
   guides(fill = "none")
 
 ```
+
 ```{r}
 #| label: fig-age-group-distribution
 #| echo: false
@@ -153,6 +190,7 @@ cleaned_data %>%
 
 
 ```
+
 ```{r}
 #| label: fig-trust-political-institutions
 #| echo: false
@@ -185,6 +223,7 @@ ggplot(cleaned_data, aes(x = Q38A)) +
   theme_minimal()
 
 ```
+
 ```{r}
 #| label: fig-demand-democracy
 #| echo: false
@@ -205,16 +244,12 @@ ggplot(cleaned_data, aes(x = Q94)) +
 
 ```
 
-
-## Variables of Interest 
+## Variables of Interest
 
 ## Outcome variables
 
 Add graphs, tables and text. Use sub-sub-headings for each outcome
 variable or update the subheading to be singular.
-
-
-
 
 ## Predictor variables
 
@@ -223,28 +258,128 @@ Add graphs, tables and text.
 Use sub-sub-headings for each outcome variable and feel free to combine
 a few into one if they go together naturally.
 
-# Model
+Background details and diagnostics are included in [Appendix
+-@sec-model-details].
 
-To investigate the relationship between demographic characteristics and different perceptions of corruption in Nigeria, we use a Bayesian Ordinal Logistic regression model. 
-
- Background details and diagnostics are included in
-[Appendix -@sec-model-details].
+# Model {#sec-model}
 
 ## Model set-up
 
+A Bayesian ordinal logistic regression model is used to estimate the
+relationship between various demographic factors and perceptions of
+corruption in the presidency. Ordinal logistic regression is a
+statistical technique used for ordered categorical outcomes to predict
+the cumulative probability of being in a particular category or below,
+given a set of predictor variables.
+
+My model includes four independent demographic variables: `education`,
+`gender`, `urban_rural`, and `age_group`. The dependent variable is
+`corruption_presidency`, which has four ordered categories: "None,"
+"Some," "Most," and "All."
+
+The ordinal logistic regression model I used is: \begin{equation}
+\log\left(\frac{P(y_i \leq j)}{P(y_i > j)}\right) = \alpha_j - \left(\beta_1 \times \text{education} + \beta_2 \times \text{gender} + \beta_3 \times \text{urban rural} + \beta_4 \times \text{age group}\right)
+\end{equation}
+
+$$
+\begin{aligned}
+\beta_1 & \sim \mbox{Normal}(0, 2.5)\\
+\beta_2 & \sim \mbox{Normal}(0, 2.5)\\
+\beta_3 & \sim \mbox{Normal}(0, 2.5)\\
+\beta_4 & \sim \mbox{Normal}(0, 2.5)\\
+\alpha_j & \sim \mbox{Normal}(0, 2.5) \quad \text{for } j = 1, 2, 3\\
+\pi_{ij} & \sim \mbox{Dirichlet}(\alpha = 1)
+\end{aligned}
+$$ where:
+
+-   $y_i$ represents the ordinal outcome for respondent $i$, indicating
+    their perception of corruption in the presidency.
+
+-   $P(y_i \leq j)$ is the cumulative probability of respondent $i$
+    falling into category $j$ or below.
+
+-   $\alpha_j$ are the threshold parameters that define the boundaries
+    between the corruption categories.
+
+-   $\beta_1, \beta_2, \beta_3, \beta_4$ are the coefficients
+    corresponding to the predictors:
+
+    -   $\beta_1$: Education level of the respondent.
+    -   $\beta_2$: Gender of the respondent (male or female).
+    -   $\beta_3$: Urban or rural location of the respondent.
+    -   $\beta_4$: Age group of the respondent.
+
+-   $\pi_{ij}$ is the probability that respondent $i$ falls into
+    corruption category $j$.
+
+In this model, the priors reflect a belief that the predictors explain
+about 20% of the variability in the outcome, as defined by the
+$R^2(0.2)$ prior. The Normal priors with a mean of 0 and standard
+deviation of 2.5 for the coefficients and threshold parameters are
+relatively weakly informative, ensuring the data have a significant role
+in determining the posterior distributions.
+
+The threshold parameters ($\alpha_j$) separate the ordered categories of
+the outcome variable, while the Dirichlet prior for $\pi_{ij}$ assumes
+no strong prior preference for any specific corruption category.
+
+The use of these priors provides flexibility for the model while
+preventing overfitting. The posterior distributions for the coefficients
+and thresholds, along with diagnostic checks for model convergence and
+predictive accuracy, can be found in @sec-appendix.
+
+### Model Assumptions
+
+The model relies on the following assumptions:
+
+-   Proportional Odds: The relationship between the predictors and the
+    log-odds of being in a higher corruption category is constant across
+    thresholds.
+-   Ordinal Outcomes: The response categories are ordered, but the
+    distances between them are not quantitatively defined.
+-   Independence of observations: Responses from different individuals
+    are assumed to be independent.
+
+## Model Justification
+
+The Bayesian approach was chosen because of its flexibility in
+incorporating prior beliefs and its ability to provide real
+quantification for uncertainty for parameter estimates. An ordinal
+logistic regression model is appropriate because the outcome variable
+(perceived corruption) is inherently ordered.
+
+The predictors-education, gender, urban/rural location, and age group-
+were selected based on their theoretical relevance to perceptions of
+governmental corruption in Nigeria, as discussed in the data section.
+For example, urban and rural individuals may influence exposure to
+governance systems, while education might shape perceptions of systemic
+corruption.
+
+The modeling decisions align closely with the structure and
+characteristics of the dataset to ensure interpretability and relevance.
+Age was included as a categorical variable reflecting predefined groups,
+allowing the model to capture non-linear relationships between age and
+perceptions of corruption. Education was treated as a categorical
+variable to account for differences across distinct milestones, such as
+"Primary school completed" and "Post-graduate qualifications." Gender
+was modeled as a binary variable ("Male" or "Female") to reflect
+societal influences on corruption perceptions. Urban versus rural
+context was included as a binary variable to capture potential
+differences in exposure to governance and information access. While the
+dataset includes regional information, province effects were excluded to
+maintain focus on demographic factors and simplify the model. Finally,
+the ordinal logistic regression framework was chosen to respect the
+ordered nature of the outcome variable ("None," "Some," "Most," "All")
+without assuming equal distances between categories. These decisions
+ensure the model is both consistent with the data and well-suited to
+addressing the research question.
 
 # Results
 
-Our results are summarized in @tbl-modelresults
+## Corruption Perceptions Model
 
-```{r}
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-
-bayesian_model <- readRDS(file = here::here ("models/bayesian_model.rds"))
-```
+The analysis revealed distinct trends in Corruption perceptions in
+different demographics. Our results are summarized in @tbl-modelresults.
 
 ```{r}
 #| echo: false
@@ -273,7 +408,37 @@ knitr::kable(
 
 
 ```
+## Predicted Probabilities
 
+```{r}
+#| echo: false
+#| eval: true
+#| label: fig-predicted
+#| fig-cap: "Predicted probabilities of high corruption perceptions by key predictors."
+
+library(ggplot2)
+
+# Simulating or using your posterior data
+predicted_data <- data.frame(
+  Predictor = names(coef(bayesian_model)),
+  Estimate = coef(bayesian_model)
+)
+
+# Plot with adjusted x-axis labels
+ggplot(predicted_data, aes(x = Predictor, y = Estimate)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8),  # Rotate and reduce size
+    axis.title.x = element_text(size = 10)
+  ) +
+  labs(
+    title = "Predicted Probabilities by Demographics",
+    x = "Predictor",
+    y = "Probability"
+  )
+
+```
 
 
 # Discussion
@@ -305,7 +470,7 @@ Weaknesses and next steps should also be included.
 
 # Model details {#sec-model-details}
 
-## Posterior Predictive Check 
+## Posterior Predictive Check
 
 ```{r}
 #| eval: true
@@ -366,6 +531,7 @@ posterior_vs_prior(bayesian_model, pars = education_params, group_by_parameter =
 
 
 ```
+
 ```{r}
 #| eval: true
 #| echo: false
@@ -399,6 +565,7 @@ posterior_vs_prior(bayesian_model, pars = demographic_params, group_by_parameter
   )
 
 ```
+
 ## Diagnostics
 
 ```{r}
@@ -438,6 +605,7 @@ mcmc_trace(as.array(bayesian_model), pars = c("educationSome primary schooling",
   )
 
 ```
+
 ```{r}
 #| eval: true
 #| echo: false
@@ -457,8 +625,6 @@ mcmc_rhat(rhat(bayesian_model)) +
 
 ```
 
-
-
 ```{r}
 #| eval: true
 #| echo: false
@@ -477,6 +643,7 @@ mcmc_neff(neff_ratio(bayesian_model)) +
   )
 
 ```
+
 \newpage
 
 # References
