@@ -374,13 +374,10 @@ without assuming equal distances between categories. These decisions
 ensure the model is both consistent with the data and well-suited to
 addressing the research question.
 
+
 # Results
 
 ## Corruption Perceptions Model
-
-The analysis revealed distinct trends in Corruption perceptions in
-different demographics. Our results are summarized in @tbl-modelresults.
-
 ```{r}
 #| echo: false
 #| eval: true
@@ -408,12 +405,18 @@ knitr::kable(
 
 
 ```
+
+The analysis revealed distinct trends in Corruption perceptions in
+different demographics. Our results are summarized in @tbl-modelresults.This presents the estimated coefficients and standard errors for each predictor included in the model. The dependent variable is the perception of corruption in the presidency, categorized into ordered levels. The table includes predictors such as education level, gender, urban or rural location, and agre group, which are modeled to explain variations in corruption perceptions. Each predictor's coefficient represents its effect on the log odds of perceiving corruption in the presidency at a specific level relative to lower levels, holding other variables constant. 
+
+Higher education levels(e.g., university or post-graduate qualifications) arre associated with positive effects on corruption perceptions, indicating a greater likelihood of perceived higher levels of corruption. Begin female shows a small positive association with higher corruption perceptions. Residing in rural areas is negatively associated with corruption perceptions, suggesting lower perceptions of corruption compared to urban counterparts. Agegroups show minimal variation in their association with corruption perceptions, with no significant deviations observed among different age brackets. 
+
 ## Predicted Probabilities
 
 ```{r}
 #| echo: false
 #| eval: true
-#| label: fig-predicted
+#| label: fig-predicted-probabilities
 #| fig-cap: "Predicted probabilities of high corruption perceptions by key predictors."
 
 library(ggplot2)
@@ -439,6 +442,12 @@ ggplot(predicted_data, aes(x = Predictor, y = Estimate)) +
   )
 
 ```
+@fig-predicted-probabilities illustrates the predicted probabilities derived from the Bayesian ordinal logistic regression model for different demographic predictors influencing corruption perceptions in Nigeria. Each bar represents the estimated impact of a specific predictor on the likelihood of perceiving higher corruption levels in the presidency. 
+
+Higher education levels consistently show positive probabilities, indicating that individuals with more advanced education levels are more likely to perceive higher corruption levels. Living in rural areas has a significantly negative probability, suggesting that rural residents are less likely to perceive high corruption compared to urban residents. Gender shows a moderate positive probability, with females slightly more likely to perceive higher corruption levels than males. There seems to be minimal variation observed across age groups, suggesting that age does not substantially influence perceptions of corruption. 
+
+The results show that higher levels of education, particularly university completion and post-secondary qualifications, are associated with greater perceptions of corruption in the presidency. Urban residents demonstrate significantly higher perceived corruption levels compared to rural residents. Gender differences reveal that female respondents show slightly higher corruption perceptions, while age groups show minimal variation. These findings are shown in the regression estimates and predicted probabilities, as visualized in @fig-predicted-probabilities and summarized in @tbl-modelresults. 
+
 
 
 # Discussion
