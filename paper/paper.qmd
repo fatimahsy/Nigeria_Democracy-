@@ -110,13 +110,14 @@ datasets, such as Nigeria’s national statistics or World Bank survey
 data, could provide economic indicators but lack the granularity of
 Afrobarometer’s public opinion data.
 
+## Variables of Interest
 ```{r}
 #| label: fig-urban-rural-distribution
 #| echo: false
 #| eval: true
 #| warning: false
 #| message: false
-#| fig.cap: "Figure 1: Urban vs Rural Respondent Distribution. This bar chart compares the number of respondents residing in urban versus rural areas."
+#| fig.cap: " Urban vs Rural Respondent Distribution. This bar chart compares the number of respondents residing in urban versus rural areas."
 
 # Plot: Urban vs Rural Respondent Distribution
 cleaned_data %>%
@@ -136,13 +137,26 @@ cleaned_data %>%
 
 ```
 
+@fig-urban-rural-distribution illustrates the distribution of survey
+respondents based on their residential location, categorized as urban or
+rural. From this, we see that the sample has more rural residents
+compared to urban residents. Specifically, the Afrobarometer survey for
+Nigeria, conducted in 2022, reports that approximately 53% of Nigeria's
+population resides in rural areas, this is is consistent with national
+demographic trends [@worldbank2022rural]. This rural-urban distribution
+is important for helping us understand the perspectives seen in the
+survey, since rural populations may have different challenges in
+governance and corruption compared to urban populations. The imbalance
+in representation shows that looking at geographical disparities when
+interpreting results from nationwide surveys is important.
+
 ```{r}
 #| label: fig-corruption-presidency
 #| echo: false
 #| eval: true
 #| warning: false
 #| message: false
-#| fig.cap: "Figure 2: Perceived Corruption in the Presidency. This bar chart shows the distribution of respondents' perceptions of corruption in the presidency."
+#| fig.cap: "Perceived Corruption in the Presidency. This bar chart shows the distribution of respondents' perceptions of corruption in the presidency."
 
 # Plot: Perceived Corruption in the Presidency
 cleaned_data %>%
@@ -165,13 +179,51 @@ cleaned_data %>%
 
 ```
 
+@fig-corruption-presidency presents the distribution of respondents'
+perceptions of corruption within the Nigerian presidency. The variable 
+"Perceived Corruption in the Presidency" captures respondents' perceptions of 
+the extent of corruption within the Nigerian presidency and its officials. This 
+variable originates from Question 38A of the Afrobarometer survey, which asked:
+*"How many of the following people do you think are involved in corruption, or 
+haven’t you heard enough about them to say: the president and officials in his 
+office?"* [@Afrobarometer2022codebook] Respondents could choose from the following values:
+
+-   **0 (None)**: Indicates that the respondent perceives no corruption
+    in the office of the presidency.
+-   **1 (Some of them)**: Suggests that the respondent believes a few
+    individuals in the presidency are involved in corruption.
+-   **2 (Most of them)**: Reflects the perception that corruption is
+    prevalent among the majority of the presidency's officials.
+-   **3 (All of them)**: Suggests the respondent perceives widespread
+    corruption, implicating all officials in the presidency.
+-   **8 (Refused)**: Indicates the respondent declined to answer the
+    question.
+-   **9 (Don’t know/Haven’t heard enough)**: Suggests the respondent was
+    unsure or lacked sufficient knowledge to provide an answer.
+-   **-1 (Missing)**: Represents missing or unavailable responses.
+
+For the analysis, only the substantive responses (0-3) were considered,
+in order to help us look into perceptions of corruption within the presidency. 
+The high frequency of responses in the "High Corruption" and "Some
+Corruption" categories reflects persistent concerns about the integrity
+of key officials in Nigeria, aligning with broader findings on
+corruption in the region.@fig-corruption-presidency presents the distribution of 
+respondents' perceptions of corruption within the Nigerian presidency. Among
+these, the category "High corruption" is the most frequently reported,
+followed by "Some corruption". "All corrupt" ranks third, with "No
+Corruption" being the least chosen category which is no surprise given
+our data is in the context of Nigeria. These proportions show
+significant public concern about corruption within the presidency,
+consistent with broader trends in public concern abut corruption
+corruption within the presidency in Nigeria.
+
 ```{r}
 #| label: fig-age-group-distribution
 #| echo: false
 #| eval: true
 #| warning: false
 #| message: false
-#| fig.cap: "Figure 3: Age Group Distribution. This bar chart displays the number of respondents in each age group."
+#| fig.cap: "Age Group Distribution. This bar chart displays the number of respondents in each age group."
 
 # Plot: Age Group Distribution
 cleaned_data %>%
@@ -190,14 +242,14 @@ cleaned_data %>%
 
 
 ```
-
+@fig-age-group-distribution illustrates the distribution of survey respondents across five distinct age groups: 18-24, 25-34, 35-44, 45-54, and 55+. The data reveals that the 25-34 age group is the most represented, with over 500 respondents, followed by the 35-44 age group. The youngest cohort, aged 18-24, comprises approximately 300 respondents, while the older age groups (45-54 and 55+) are less represented in the dataset, with fewer than 200 respondents each. This distribution highlights a concentration of responses from younger demographics, particularly those aged 25-34, which may reflect broader societal trends such as population age structure or survey reach and accessibility.
 ```{r}
 #| label: fig-trust-political-institutions
 #| echo: false
 #| eval: true
 #| warning: false
 #| message: false
-#| fig.cap: "Figure 4: Distribution of Trust in Political Institutions. This histogram shows how respondents rated their trust in political institutions, from low to high trust."
+#| fig.cap: "Distribution of Trust in Political Institutions. This histogram shows how respondents rated their trust in political institutions, from low to high trust."
 
 library(haven)
 
@@ -230,7 +282,7 @@ ggplot(cleaned_data, aes(x = Q38A)) +
 #| eval: true
 #| warning: false
 #| message: false
-#| fig.cap: "Figure 5: Distribution of Demand for Democracy. This histogram illustrates respondents' levels of demand for democracy, with higher values reflecting stronger democratic preferences."
+#| fig.cap: "Distribution of Demand for Democracy. This histogram illustrates respondents' levels of demand for democracy, with higher values reflecting stronger democratic preferences."
 
 # Plot: Demand for Democracy
 ggplot(cleaned_data, aes(x = Q94)) +
@@ -243,8 +295,6 @@ ggplot(cleaned_data, aes(x = Q94)) +
   theme_minimal()
 
 ```
-
-## Variables of Interest
 
 ## Outcome variables
 
@@ -374,10 +424,10 @@ without assuming equal distances between categories. These decisions
 ensure the model is both consistent with the data and well-suited to
 addressing the research question.
 
-
 # Results
 
 ## Corruption Perceptions Model
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -407,9 +457,26 @@ knitr::kable(
 ```
 
 The analysis revealed distinct trends in Corruption perceptions in
-different demographics. Our results are summarized in @tbl-modelresults.This presents the estimated coefficients and standard errors for each predictor included in the model. The dependent variable is the perception of corruption in the presidency, categorized into ordered levels. The table includes predictors such as education level, gender, urban or rural location, and agre group, which are modeled to explain variations in corruption perceptions. Each predictor's coefficient represents its effect on the log odds of perceiving corruption in the presidency at a specific level relative to lower levels, holding other variables constant. 
+different demographics. Our results are summarized in
+@tbl-modelresults.This presents the estimated coefficients and standard
+errors for each predictor included in the model. The dependent variable
+is the perception of corruption in the presidency, categorized into
+ordered levels. The table includes predictors such as education level,
+gender, urban or rural location, and agre group, which are modeled to
+explain variations in corruption perceptions. Each predictor's
+coefficient represents its effect on the log odds of perceiving
+corruption in the presidency at a specific level relative to lower
+levels, holding other variables constant.
 
-Higher education levels(e.g., university or post-graduate qualifications) arre associated with positive effects on corruption perceptions, indicating a greater likelihood of perceived higher levels of corruption. Begin female shows a small positive association with higher corruption perceptions. Residing in rural areas is negatively associated with corruption perceptions, suggesting lower perceptions of corruption compared to urban counterparts. Agegroups show minimal variation in their association with corruption perceptions, with no significant deviations observed among different age brackets. 
+Higher education levels(e.g., university or post-graduate
+qualifications) arre associated with positive effects on corruption
+perceptions, indicating a greater likelihood of perceived higher levels
+of corruption. Begin female shows a small positive association with
+higher corruption perceptions. Residing in rural areas is negatively
+associated with corruption perceptions, suggesting lower perceptions of
+corruption compared to urban counterparts. Agegroups show minimal
+variation in their association with corruption perceptions, with no
+significant deviations observed among different age brackets.
 
 ## Predicted Probabilities
 
@@ -442,13 +509,33 @@ ggplot(predicted_data, aes(x = Predictor, y = Estimate)) +
   )
 
 ```
-@fig-predicted-probabilities illustrates the predicted probabilities derived from the Bayesian ordinal logistic regression model for different demographic predictors influencing corruption perceptions in Nigeria. Each bar represents the estimated impact of a specific predictor on the likelihood of perceiving higher corruption levels in the presidency. 
 
-Higher education levels consistently show positive probabilities, indicating that individuals with more advanced education levels are more likely to perceive higher corruption levels. Living in rural areas has a significantly negative probability, suggesting that rural residents are less likely to perceive high corruption compared to urban residents. Gender shows a moderate positive probability, with females slightly more likely to perceive higher corruption levels than males. There seems to be minimal variation observed across age groups, suggesting that age does not substantially influence perceptions of corruption. 
+@fig-predicted-probabilities illustrates the predicted probabilities
+derived from the Bayesian ordinal logistic regression model for
+different demographic predictors influencing corruption perceptions in
+Nigeria. Each bar represents the estimated impact of a specific
+predictor on the likelihood of perceiving higher corruption levels in
+the presidency.
 
-The results show that higher levels of education, particularly university completion and post-secondary qualifications, are associated with greater perceptions of corruption in the presidency. Urban residents demonstrate significantly higher perceived corruption levels compared to rural residents. Gender differences reveal that female respondents show slightly higher corruption perceptions, while age groups show minimal variation. These findings are shown in the regression estimates and predicted probabilities, as visualized in @fig-predicted-probabilities and summarized in @tbl-modelresults. 
+Higher education levels consistently show positive probabilities,
+indicating that individuals with more advanced education levels are more
+likely to perceive higher corruption levels. Living in rural areas has a
+significantly negative probability, suggesting that rural residents are
+less likely to perceive high corruption compared to urban residents.
+Gender shows a moderate positive probability, with females slightly more
+likely to perceive higher corruption levels than males. There seems to
+be minimal variation observed across age groups, suggesting that age
+does not substantially influence perceptions of corruption.
 
-
+The results show that higher levels of education, particularly
+university completion and post-secondary qualifications, are associated
+with greater perceptions of corruption in the presidency. Urban
+residents demonstrate significantly higher perceived corruption levels
+compared to rural residents. Gender differences reveal that female
+respondents show slightly higher corruption perceptions, while age
+groups show minimal variation. These findings are shown in the
+regression estimates and predicted probabilities, as visualized in
+@fig-predicted-probabilities and summarized in @tbl-modelresults.
 
 # Discussion
 
