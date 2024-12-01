@@ -3,11 +3,12 @@ title: "Perceptions of Corruption in Nigeria"
 subtitle: "Rural Nigerians and Less Educated  Groups Report Higher Corruption"
 author: 
   - Fatimah Yunusa
-thanks: "Code and data are available at:https://github.com/fatimahsy/Nigeria_Democracy-/tree/main"
+thanks: "Code and data are available at:https://github.com/fatimahsy/Nigeria_Democracy-"
 date: today
 date-format: long
 abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
 format: pdf
+toc: true
 number-sections: true
 bibliography: references.bib
 editor: 
@@ -26,6 +27,7 @@ editor:
 #install.packages("dplyr")
 #install.packages("here")
 #install.packages("arrow")
+#install.packages(tinytable)
 library(modelsummary)
 library(rstanarm)
 library(dplyr)
@@ -35,7 +37,6 @@ library(bayesplot)
 library(ggplot2)
 library(arrow)
 library(here)
-
 library(patchwork)
 
 # Load data
@@ -56,27 +57,24 @@ Why it matters paragraph
 Telegraphing paragraph: The remainder of this paper is structured as
 follows. @sec-data....
 
-We use the statistical programming language R [@citeR]....
-
 # Data {#sec-data}
 
 ## Measurement
 
-For this analysis, i use the Afrobarometer Rouund 9, Nigeria, 2023
+For this analysis, i use the Afrobarometer Round 9, Nigeria, 2023
 survey. Afrobarometer conducts surveys that are nationally
 representative across African nations to capture public perceptions on
 topics like governance, democracy, and economic issues. The Nigerian
-Round 9 surveey dataset contains responses from 1,556 people and is
-refective of the diverse demographic statistics across gender, region,
+Round 9 survey dataset contains responses from 1,556 people and shows the diverse demographic statistics across gender, region,
 and residence type(urban or rural). The data is freely available on the
 Afrobarometer website[@afrobarometer2023] and was collected through a
 multi-stage, stratified sampling method. This is to ensure
 representativeness and enables analysis of different demographics and
 socioeconomic indicators.
 
-Our primary measurement task is to capture public opininon towards
+Our primary measurement task is to capture public opinion towards
 economic, political and socioeconomic issues and translate it into
-actionable intell. The Afrobarometer survey translates these real world
+actionable lintel. The Afrobarometer survey translates these real world
 perceptions into quantifiable data using survey instruments.The process
 begins with identifying relevant phenomena in the Nigerian
 socio-political and economic context, such as public attitudes toward
@@ -110,6 +108,148 @@ datasets, such as Nigeria’s national statistics or World Bank survey
 data, could provide economic indicators but lack the granularity of
 Afrobarometer’s public opinion data.
 
+The data for this study was downloaded, cleaned, analyzed, modeled, and visualized using R [@citeR], a statistical programming language. The following packages were used:
+
+- **`modelsummary`** [@modelsummary]: Used to create well-formatted regression tables and summaries.
+- **`rstanarm`** [@rstanarm]: Facilitated Bayesian regression modeling using the Stan backend.
+- **`dplyr`** [@dplyr]: Streamlined data manipulation, transformation, and summarization processes.
+- **`here`** [@here]: Simplified the organization of file paths, improving project reproducibility.
+- **`arrow`** [@arrow]: Enabled efficient handling of large datasets with fast reading and writing capabilities.
+- **`bayesplot`** [@bayesplot]: Assisted in producing diagnostic checks and posterior predictive visualizations for Bayesian models.
+- **`ggplot2`** [@ggplot2]: Provided extensive tools for creating clear and impactful visualizations.
+- **`patchwork`** [@patchwork]: Combined multiple plots into cohesive, professional visuals.
+- **`knitr`** [@knitr]: Enabled dynamic report generation, integrating code, output, and text seamlessly.
+- **`kableExtra`** [@kableExtra]: Enhanced table styling and formatting for clean, professional presentations.
+- **`ggalt`** [@ggalt]: Allowed the creation of specialized plots, enhancing the depth of data visualizations.
+- **`haven`** [@haven]: Facilitated the import of `.sav` survey data from the Afrobarometer.
+- **`broom.mixed`** [@broommixed]: Streamlined the extraction and tidying of results from mixed models for easy analysis and visualization.
+- **`afrobarometer`** [@afrobarometer2023]: Served as the primary data source, providing valuable survey data for analysis.
+- **_Telling Stories with Data_** [@tellingstories]: This book was referenced for its code and methodologies. 
+
+
+## Cleaned Data Overview 
+```{r}
+#| label: tbl-cleaned-data-preview
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| tbl-cap: "Preview of the Cleaned Dataset"
+
+#install.packages("knitr")
+#install.packages("kableExtra")
+library(knitr)
+library(kableExtra)
+
+# Create a preview of the cleaned dataset
+table_preview <- cleaned_data %>% 
+  select(-c(1:6)) %>%
+  head(6)
+
+# Generate a well-formatted table using kableExtra
+kable(
+  table_preview, 
+  caption = "Preview of the Cleaned Dataset"
+) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE)
+```
+
+@tbl-cleaned-data-preview represents the first six cleaned rows of the
+dataset, showing the important variables used in the analysis. The
+variables were constructed from specific survey questions in the
+Afrobarometer Round 9 Nigeria Survey [@afrobarometer2023], which
+captures several socioeconomic sentiments within the country.The column
+corruption_presidency captures perceptions of corruption within the
+office of the presidency, derived from responses to the question, “How
+many of the following people do you think are involved in corruption, or
+haven’t you heard enough about them to say: the president and officials
+in his office?” The variable education reflects respondents' highest
+level of education completed, gathered from the question, “What is the
+highest level of education you have completed?” The gender variable
+indicates the respondent's gender, collected through direct demographic
+inquiry. The column age_group categorizes respondents into age brackets
+based on the question, “How old are you?” The urban_rural variable
+distinguishes between urban and rural respondents, as recorded by
+interviewers based on the primary sampling unit (PSU) during data
+collection [@survey_manual_2022]. Lastly, region specifies the
+geographical region of each respondent, identified using a unique code
+for Nigerian states. This table not only demonstrates the diversity of
+the dataset but also highlights the breadth of demographic and
+governance-related variables included for analysis.
+
+```{r}
+#| label: tbl-summary-statistics
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| tbl-cap: "Detailed Summary Statistics of the Cleaned Dataset"
+
+library(dplyr)
+library(knitr)
+library(kableExtra)
+
+
+# Ensure the age_group column is a character for correct mapping
+cleaned_data <- cleaned_data %>%
+  mutate(age_group = as.character(age_group))
+
+# Function to calculate the mode (most frequent category)
+calculate_mode <- function(x) {
+  x <- na.omit(x)
+  unique_x <- unique(x)
+  unique_x[which.max(tabulate(match(x, unique_x)))]
+}
+
+
+# Adjust line breaks for proper rendering
+line_break <- ifelse(knitr::is_html_output(), "<br>", "\n")
+
+# Prepare the data for the transposed table
+transposed_summary <- tibble(
+  Statistic = c(
+    "Most Frequent Age Group", 
+    "Urban Percentage", 
+    "Male Percentage", 
+    "Corruption Counts", 
+    "Education Counts"
+  ),
+  Value = c(
+    calculate_mode(cleaned_data$age_group), 
+    paste0(round(mean(cleaned_data$urban_rural == "Urban Residents", na.rm = TRUE) * 100, 2), "%"),
+    paste0(round(mean(cleaned_data$gender == "Male", na.rm = TRUE) * 100, 2), "%"),
+    paste0(
+      "None: 61", line_break,
+      "Some: 574", line_break,
+      "High: 593", line_break,
+      "All: 328"
+    ),
+    paste0(
+      "Primary: 203", line_break,
+      "Secondary: 173", line_break,
+      "University: 102", line_break,
+      "Postgraduate: 07"
+    )
+  )
+)
+
+# Generate a formatted table
+kable(
+  transposed_summary, 
+  col.names = c("Statistic", "Value"),
+  caption = "Detailed Summary Statistics of the Cleaned Dataset (Transposed)",
+  escape = FALSE # Disables escaping for proper HTML/PDF formatting
+) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) %>%
+  column_spec(2, width = "20em") # Adjust width for better multiline display
+
+```
+The cleaned dataset used in this study is summarised in @tbl-summary-statistics, which provides key statistics to offer an overview of the dataset's structure and characteristics. The most frequent age group among respondents is identified, representing the predominant demographic in terms of age. The table also highlights the urban and male percentages, which indicate the proportion of urban residents (43.38%) and male respondents (49.68%) in the sample.
+
+Further, the table breaks down the perceptions of corruption into four categories—"None," "Some," "High," and "All"—with counts for each, offering insights into respondents' views on corruption in the presidency. Additionally, the table details the distribution of respondents across education levels, including categories such as "Primary," "Secondary," "University," and "Postgraduate." Together, these summary statistics provide a comprehensive snapshot of the dataset, enabling a clear understanding of its demographic and categorical variables.  
+
+
+
 ## Variables of Interest
 ```{r}
 #| label: fig-urban-rural-distribution
@@ -117,7 +257,7 @@ Afrobarometer’s public opinion data.
 #| eval: true
 #| warning: false
 #| message: false
-#| fig.cap: " Urban vs Rural Respondent Distribution. This bar chart compares the number of respondents residing in urban versus rural areas."
+#| fig.cap: " Urban vs Rural Respondent Distribution. This bar chart compares the number of respondents residing in urban versus rural areas in Nigeria."
 
 # Plot: Urban vs Rural Respondent Distribution
 cleaned_data %>%
@@ -156,7 +296,7 @@ interpreting results from nationwide surveys is important.
 #| eval: true
 #| warning: false
 #| message: false
-#| fig.cap: "Perceived Corruption in the Presidency. This bar chart shows the distribution of respondents' perceptions of corruption in the presidency."
+#| fig.cap: "Perceived Corruption in the Presidency. This bar chart shows the distribution of respondents' perceptions of corruption in the presidency in Nigeria."
 
 # Plot: Perceived Corruption in the Presidency
 cleaned_data %>%
@@ -179,14 +319,16 @@ cleaned_data %>%
 
 ```
 
-@fig-corruption-presidency presents the distribution of respondents'
-perceptions of corruption within the Nigerian presidency. The variable 
-"Perceived Corruption in the Presidency" captures respondents' perceptions of 
-the extent of corruption within the Nigerian presidency and its officials. This 
-variable originates from Question 38A of the Afrobarometer survey, which asked:
-*"How many of the following people do you think are involved in corruption, or 
-haven’t you heard enough about them to say: the president and officials in his 
-office?"* [@Afrobarometer2022codebook] Respondents could choose from the following values:
+ @fig-corruption-presidency presents the distribution of respondents'
+perceptions of corruption within the Nigerian presidency. The variable
+"Perceived Corruption in the Presidency" captures respondents'
+perceptions of the extent of corruption within the Nigerian presidency
+and its officials. This variable originates from Question 38A of the
+Afrobarometer survey, which asked: *"How many of the following people do
+you think are involved in corruption, or haven’t you heard enough about
+them to say: the president and officials in his office?"*
+[@Afrobarometer2022codebook] Respondents could choose from the following
+values:
 
 -   **0 (None)**: Indicates that the respondent perceives no corruption
     in the office of the presidency.
@@ -203,19 +345,60 @@ office?"* [@Afrobarometer2022codebook] Respondents could choose from the followi
 -   **-1 (Missing)**: Represents missing or unavailable responses.
 
 For the analysis, only the substantive responses (0-3) were considered,
-in order to help us look into perceptions of corruption within the presidency. 
-The high frequency of responses in the "High Corruption" and "Some
-Corruption" categories reflects persistent concerns about the integrity
-of key officials in Nigeria, aligning with broader findings on
-corruption in the region.@fig-corruption-presidency presents the distribution of 
-respondents' perceptions of corruption within the Nigerian presidency. Among
-these, the category "High corruption" is the most frequently reported,
-followed by "Some corruption". "All corrupt" ranks third, with "No
-Corruption" being the least chosen category which is no surprise given
-our data is in the context of Nigeria. These proportions show
-significant public concern about corruption within the presidency,
-consistent with broader trends in public concern abut corruption
-corruption within the presidency in Nigeria.
+in order to help us look into perceptions of corruption within the
+presidency. The high frequency of responses in the "High Corruption" and
+"Some Corruption" categories reflects persistent concerns about the
+integrity of key officials in Nigeria, aligning with broader findings on
+corruption in the region. @fig-corruption-presidency presents the
+distribution of respondents' perceptions of corruption within the
+Nigerian presidency. Among these, the category "High corruption" is the
+most frequently reported, followed by "Some corruption". "All corrupt"
+ranks third, with "No Corruption" being the least chosen category which
+is no surprise given our data is in the context of Nigeria. These
+proportions show significant public concern about corruption within the
+presidency, consistent with broader trends in public concern abut
+corruption corruption within the presidency in Nigeria.
+
+```{r}
+#| label: fig-dumbbell-education
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "Distribution of Education Levels in Nigeria"
+#install.packages("ggalt")
+library(ggalt)
+
+cleaned_data %>%
+  count(education) %>%
+  ggplot(aes(x = n, y = reorder(education, n))) +
+  geom_dumbbell(
+    aes(xend = 0, x = n), 
+    size = 3, colour = "darkblue", dot_guide = TRUE
+  ) +
+  theme_minimal() +
+  labs(
+    title = "Distribution of Education Levels in Nigeria",
+    x = "Number of Respondents", y = "Education Level"
+  )
+
+
+
+```
+
+@fig-dumbbell-education visually represents the educational attainment
+levels of respondents in the Afrobarometer survey for Nigeria. The data
+reflects responses to the question: *What is your highest level of
+education?*. The chart indicates that the most frequent reported level
+of education is "secondary school completed," followed by "primary
+school completed" and "no formal schooling". Fewer respondents reported
+having attained "post secondary qualifications," "university completed,"
+or "Post-graduate" education, shows the disparity in advanced
+educational attainment across the population. This distribution shows
+that basic education levels are more prevalent among respondents, which
+may influence their perceptions and responses in the broader survey.
+Including educational attainment is important in our analysis because it
+is an important socioeconomic factor.
 
 ```{r}
 #| label: fig-age-group-distribution
@@ -223,7 +406,7 @@ corruption within the presidency in Nigeria.
 #| eval: true
 #| warning: false
 #| message: false
-#| fig.cap: "Age Group Distribution. This bar chart displays the number of respondents in each age group."
+#| fig.cap: "Age Group Distribution. This bar chart displays the number of respondents in each age group in Nigeria."
 
 # Plot: Age Group Distribution
 cleaned_data %>%
@@ -242,74 +425,19 @@ cleaned_data %>%
 
 
 ```
-@fig-age-group-distribution illustrates the distribution of survey respondents across five distinct age groups: 18-24, 25-34, 35-44, 45-54, and 55+. The data reveals that the 25-34 age group is the most represented, with over 500 respondents, followed by the 35-44 age group. The youngest cohort, aged 18-24, comprises approximately 300 respondents, while the older age groups (45-54 and 55+) are less represented in the dataset, with fewer than 200 respondents each. This distribution highlights a concentration of responses from younger demographics, particularly those aged 25-34, which may reflect broader societal trends such as population age structure or survey reach and accessibility.
-```{r}
-#| label: fig-trust-political-institutions
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-#| fig.cap: "Distribution of Trust in Political Institutions. This histogram shows how respondents rated their trust in political institutions, from low to high trust."
 
-library(haven)
+@fig-age-group-distribution illustrates the distribution of survey
+respondents across five distinct age groups: 18-24, 25-34, 35-44, 45-54,
+and 55+. The data reveals that the 25-34 age group is the most
+represented, with over 500 respondents, followed by the 35-44 age group.
+The youngest cohort, aged 18-24, comprises approximately 300
+respondents, while the older age groups (45-54 and 55+) are less
+represented in the dataset, with fewer than 200 respondents each. This
+distribution highlights a concentration of responses from younger
+demographics, particularly those aged 25-34, which may reflect broader
+societal trends such as population age structure or survey reach and
+accessibility.
 
-# Convert haven_labelled variables to appropriate types
-cleaned_data <- cleaned_data %>%
-  mutate(
-    Q38A = as.numeric(as.character(Q38A)), # Convert to numeric
-    Q94 = as.numeric(as.character(Q94)),   # Convert to numeric
-    Q101 = as.numeric(as.character(Q101)), # Convert to numeric if needed
-    URBRUR = as_factor(URBRUR),            # Convert to factor
-    corruption_presidency = as_factor(corruption_presidency), # Convert to factor
-    urban_rural = as_factor(urban_rural)   # Convert to factor
-  )
-
-# Plot: Trust in Political Institutions
-ggplot(cleaned_data, aes(x = Q38A)) +
-  geom_histogram(binwidth = 1, fill = "skyblue", color = "black") +
-  labs(
-    title = "Trust in Political Institutions",
-    x = "Trust Level (1 = Low, 5 = High)",
-    y = "Frequency"
-  ) +
-  theme_minimal()
-
-```
-
-```{r}
-#| label: fig-demand-democracy
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-#| fig.cap: "Distribution of Demand for Democracy. This histogram illustrates respondents' levels of demand for democracy, with higher values reflecting stronger democratic preferences."
-
-# Plot: Demand for Democracy
-ggplot(cleaned_data, aes(x = Q94)) +
-  geom_histogram(binwidth = 1, fill = "orange", color = "black") +
-  labs(
-    title = "Demand for Democracy",
-    x = "Demand Level (1 = Low, 5 = High)",
-    y = "Frequency"
-  ) +
-  theme_minimal()
-
-```
-
-## Outcome variables
-
-Add graphs, tables and text. Use sub-sub-headings for each outcome
-variable or update the subheading to be singular.
-
-## Predictor variables
-
-Add graphs, tables and text.
-
-Use sub-sub-headings for each outcome variable and feel free to combine
-a few into one if they go together naturally.
-
-Background details and diagnostics are included in [Appendix
--@sec-model-details].
 
 # Model {#sec-model}
 
@@ -376,7 +504,7 @@ no strong prior preference for any specific corruption category.
 The use of these priors provides flexibility for the model while
 preventing overfitting. The posterior distributions for the coefficients
 and thresholds, along with diagnostic checks for model convergence and
-predictive accuracy, can be found in @sec-appendix.
+predictive accuracy, can be found in the Appendix.
 
 ### Model Assumptions
 
@@ -457,8 +585,7 @@ knitr::kable(
 ```
 
 The analysis revealed distinct trends in Corruption perceptions in
-different demographics. Our results are summarized in
-@tbl-modelresults.This presents the estimated coefficients and standard
+different demographics. Our results are summarized in @tbl-modelresults.This presents the estimated coefficients and standard
 errors for each predictor included in the model. The dependent variable
 is the perception of corruption in the presidency, categorized into
 ordered levels. The table includes predictors such as education level,
