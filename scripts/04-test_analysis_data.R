@@ -9,61 +9,85 @@
 
 
 #### Workspace setup ####
-library(tidyverse)
-library(testthat)
+if (!requireNamespace("testthat", quietly = TRUE)) install.packages("testthat")
+if (!requireNamespace("validate", quietly = TRUE)) install.packages("validate")
+if (!requireNamespace("pointblank", quietly = TRUE)) install.packages("pointblank")
 
-data <- read_csv("data/02-analysis_data/analysis_data.csv")
+library(testthat)
+library(validate)
+library(pointblank)
+library(dplyr)
+
+
+cleaned_data <- read_csv("data/02-analysis_data/cleaned_nigeriasurvey.csv")
 
 
 #### Test data ####
-# Test that the dataset has 151 rows - there are 151 divisions in Australia
-test_that("dataset has 151 rows", {
-  expect_equal(nrow(analysis_data), 151)
+
+
+### 1. TEST USING testthat
+test_that("Cleaned dataset has correct structure and data types", {
+  expect_true("corruption_presidency" %in% colnames(cleaned_data))
+  expect_true("education" %in% colnames(cleaned_data))
+  expect_true("gender" %in% colnames(cleaned_data))
+  expect_true("age_group" %in% colnames(cleaned_data))
+  expect_true("urban_rural" %in% colnames(cleaned_data))
+  
+  expect_s3_class(cleaned_data$corruption_presidency, "character")
+  expect_s3_class(cleaned_data$education, "character")
+  expect_s3_class(cleaned_data$gender, "character")
+  expect_s3_class(cleaned_data$age_group, "character")
+  expect_s3_class(cleaned_data$urban_rural, "character")
+}) 
+
+test_that("Cleaned dataset has no missing values in key columns", {
+  expect_true(all(!is.na(cleaned_data$corruption_presidency)))
+  expect_true(all(!is.na(cleaned_data$education)))
+  expect_true(all(!is.na(cleaned_data$gender)))
 })
 
-# Test that the dataset has 3 columns
-test_that("dataset has 3 columns", {
-  expect_equal(ncol(analysis_data), 3)
+test_that("No unexpected values in categorical variables", {
+  expect_setequal(unique(cleaned_data$gender), c("Male", "Female"))
+  expect_setequal(unique(cleaned_data$urban_rural), c("Urban Residents", "Rural Residents"))
 })
 
-# Test that the 'division' column is character type
-test_that("'division' is character", {
-  expect_type(analysis_data$division, "character")
-})
+### 2. TEST USING validate
+validation_rules <- validator(
+  corruption_presidency %in% c("None", "Some", "High", "All"),
+  gender %in% c("Male", "Female"),
+  age_group %in% c("18-24", "25-34", "35-44", "45-54", "55+"),
+  urban_rural %in% c("Urban Residents", "Rural Residents"),
+  is.character(education),
+  !is.na(corruption_presidency),
+  !is.na(education),
+  !is.na(gender)
+)
 
-# Test that the 'party' column is character type
-test_that("'party' is character", {
-  expect_type(analysis_data$party, "character")
-})
+validation_results <- confront(cleaned_data, validation_rules)
+summary(validation_results)
+plot(validation_results)
 
-# Test that the 'state' column is character type
-test_that("'state' is character", {
-  expect_type(analysis_data$state, "character")
-})
+### 3. TEST USING pointblank
+agent <- create_agent(tbl = cleaned_data) %>%
+  col_exists(columns = vars(corruption_presidency, education, gender, age_group, urban_rural)) %>%
+  col_is_character(columns = vars(corruption_presidency, education, gender, age_group, urban_rural)) %>%
+  col_vals_in_set(
+    columns = vars(corruption_presidency), 
+    set = c("None", "Some", "High", "All")
+  ) %>%
+  col_vals_in_set(
+    columns = vars(gender),
+    set = c("Male", "Female")
+  ) %>%
+  col_vals_in_set(
+    columns = vars(urban_rural),
+    set = c("Urban Residents", "Rural Residents")
+  ) %>%
+  col_vals_in_set(
+    columns = vars(age_group),
+    set = c("18-24", "25-34", "35-44", "45-54", "55+")
+  ) %>%
+  col_vals_not_null(columns = vars(corruption_presidency, education, gender)) %>%
+  interrogate()
 
-# Test that there are no missing values in the dataset
-test_that("no missing values in dataset", {
-  expect_true(all(!is.na(analysis_data)))
-})
-
-# Test that 'division' contains unique values (no duplicates)
-test_that("'division' column contains unique values", {
-  expect_equal(length(unique(analysis_data$division)), 151)
-})
-
-# Test that 'state' contains only valid Australian state or territory names
-valid_states <- c("New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", 
-                  "Tasmania", "Northern Territory", "Australian Capital Territory")
-test_that("'state' contains valid Australian state names", {
-  expect_true(all(analysis_data$state %in% valid_states))
-})
-
-# Test that there are no empty strings in 'division', 'party', or 'state' columns
-test_that("no empty strings in 'division', 'party', or 'state' columns", {
-  expect_false(any(analysis_data$division == "" | analysis_data$party == "" | analysis_data$state == ""))
-})
-
-# Test that the 'party' column contains at least 2 unique values
-test_that("'party' column contains at least 2 unique values", {
-  expect_true(length(unique(analysis_data$party)) >= 2)
-})
+agent
