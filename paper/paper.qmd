@@ -438,6 +438,250 @@ demographics, particularly those aged 25-34, which may reflect broader
 societal trends such as population age structure or survey reach and
 accessibility.
 
+## Combined variables of interest? 
+
+```{r}
+#| label: fig-variables-of-interest
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "combined variables of interest"
+
+library(patchwork)
+
+# Create individual plots
+urban_plot <- cleaned_data %>%
+  count(URBRUR) %>%
+  ggplot(aes(x = URBRUR, y = n, fill = URBRUR)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Urban vs Rural", x = "Location", y = "Count")
+
+corruption_plot <- cleaned_data %>%
+  count(corruption_presidency) %>%
+  ggplot(aes(x = corruption_presidency, y = n, fill = corruption_presidency)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Corruption Perception", x = "Perception", y = "Count")
+
+education_plot <- cleaned_data %>%
+  count(education) %>%
+  ggplot(aes(x = n, y = reorder(education, n))) +
+  geom_col(fill = "darkblue") +
+  theme_minimal() +
+  labs(title = "Education Level", x = "Count", y = "Education")
+
+age_plot <- cleaned_data %>%
+  count(age_group) %>%
+  ggplot(aes(x = age_group, y = n, fill = age_group)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Age Distribution", x = "Age Group", y = "Count")
+
+# Combine plots
+urban_plot + corruption_plot + education_plot + age_plot +
+  plot_layout(ncol = 2)
+
+```
+
+
+
+```{r}
+#| label: fig-variables-of-interest-heatmap
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "combined variables of interest"
+
+#install.packages("tidyr")
+library(tidyr)
+# Combine data for heatmap
+heatmap_data <- cleaned_data %>%
+  pivot_longer(
+    cols = c(URBRUR, corruption_presidency, education, age_group),
+    names_to = "variable",
+    values_to = "category"
+  ) %>%
+  count(variable, category) %>%
+  mutate(variable = factor(variable, levels = c("URBRUR", "corruption_presidency", "education", "age_group")))
+
+# Create heatmap
+ggplot(heatmap_data, aes(x = category, y = variable, fill = n)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "lightblue", high = "darkblue") +
+  labs(
+    title = "Heatmap of Variable Distributions",
+    x = "Category",
+    y = "Variable",
+    fill = "Count"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+
+```
+
+## Corruption Perceptions Vs Variables of Interest 
+```{r}
+#| label: fig-education-vs-corruption
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "Relationship between Education Levels and corruption percetpions in Nigeria  in Nigeria"
+
+
+cleaned_data %>%
+  count(education, corruption_presidency) %>%
+  ggplot(aes(x = corruption_presidency, y = education, fill = n)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "lightblue", high = "darkblue") +
+  labs(
+    title = "Heatmap of Education and Corruption Perceptions",
+    x = "Corruption Perception",
+    y = "Education Level",
+    fill = "Number of Respondents"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, hjust = 0.5), # Reduce title size and center it
+    axis.text.x = element_text(angle = 45, hjust = 1), # Rotate x-axis labels
+    axis.text.y = element_text(size = 10) # Adjust y-axis label size
+  )
+
+
+
+```
+
+This heatmap in @fig-education-vs-corruption shows the relationship between respondents’ education levels and their perceptions of corruption in Nigeria. The x-axis represents corruption perception categories (All Corrupt, High Corruption, No Corruption, and Some Corruption), while the y-axis represents education levels, ranging from No Formal Schooling to Post-graduate. The intensity of the color reflects the number of respondents, with darker shades indicating higher counts.
+
+The heatmap reveals that respondents who completed secondary school or some secondary schooling dominate the High Corruption and Some Corruption categories. Respondents with higher education levels (university and post-graduate) are distributed more evenly across the corruption perception categories, with fewer concentrated in any specific category. Conversely, respondents with no formal schooling or only informal education are sparsely represented across all categories.
+
+This visualization highlights a notable concentration of corruption perceptions among respondents with mid-level education (secondary schooling), while those with higher education tend to have more varied perceptions. These findings suggest a potential link between educational attainment and experiences or attitudes toward corruption, particularly among those with secondary-level education.
+
+```{r}
+#| label: fig-age-versus-corruption
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "Age Group Vs. Corruption Perception. This faceted bar chart plots the relationship between the age group of respondents and their different corruption perception levels in Nigeria."
+
+
+# Create the faceted bar chart
+ggplot(cleaned_data, aes(x = age_group, fill = age_group)) +
+  geom_bar() +
+  facet_wrap(~corruption_presidency) +
+  labs(
+    title = "Corruption Perceptions across Age Groups",
+    x = "Age Group",
+    y = "Count of Respondents",
+    fill = "Age Group"
+  ) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set3") +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5)
+  )
+
+```
+@fig-age-versus-corruption shows the relationship between respondents' age group and their perceptions of corruption in Nigeria. Each panel corresponds to one of four corruption perception levels: * All Corruption, High Corruption, Some Corruption, and No Corruption.*Whitin each panel, the bars represent the count of respondent across five age groups (18-24, 25-34, 35-44, 45-54, and 55+), enabling a clear comparison of how perceptions vary by age. 
+
+The 25–34 and 35–44 age groups have the highest counts in the High Corruption and Some Corruption categories, suggesting that middle-aged respondents are more likely to perceive corruption as significant. In contrast, younger respondents (18–24) and older respondents (55+) report lower levels of corruption perception in these categories.
+
+In the All Corrupt category, the 25–34, 35–44, and 55+ age groups dominate, while the 18–24 and 45–54 groups have lower counts. The No Corruption category has low counts across all age groups, indicating that very few respondents, regardless of age, perceive the absence of corruption.
+
+These results indicate that middle-aged respondents (25–44) are the most likely to report high levels of corruption perception, while younger and older groups report less. The consistently low counts in the No Corruption category reflect a widespread belief that corruption is a persistent issue in Nigeria.
+
+```{r}
+#| label: fig-ruralurban-versus-corruption
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "Rural/Urban Vs. Corruption Perception. This stacked bar chart visualises the relationship between respondents' corruption perceptions and weather they live in rural or urban areas in Nigeria."
+
+# Summarize the data
+corruption_vs_urban <- cleaned_data %>%
+  count(urban_rural, corruption_presidency) %>%
+  group_by(urban_rural) %>%
+  mutate(proportion = n / sum(n)) %>%
+  ungroup()
+
+# Create the stacked bar chart
+ggplot(corruption_vs_urban, aes(x = urban_rural, y = proportion, fill = corruption_presidency)) +
+  geom_bar(stat = "identity", position = "fill") +
+  labs(
+    title = "Relationship between Rural vs. Urban Respondents and Corruption Perceptions",
+    x = "Respondent Location",
+    y = "Proportion of Respondents",
+    fill = "Corruption Perception"
+  ) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0.5)
+  )
+
+
+# Convert corruption_presidency to numeric if needed
+cleaned_data$corruption_numeric <- as.numeric(factor(cleaned_data$corruption_presidency))
+
+
+
+```
+The relationship between respondents' residential location (rural vs. urban) and their perceptions of corruption is shown in @fig-ruralurban-versus-corruption Each bar represents the proportion of respondents within rural and urban groups who hold different corruption perceptions: All Corrupt, High Corruption, Some Corruption, and No Corruption.
+
+The chart reveals that rural and urban respondents share similar patterns of corruption perception. The majority of respondents in both groups fall under the Some Corruption and High Corruption categories, with Some Corruption being slightly more prevalent. The All Corrupt category is the third most common perception in both groups, while the No Corruption category is consistently the least represented.
+
+These findings indicate that residential location does not significantly influence corruption perceptions, as rural and urban respondents report similar distribution patterns across all categories. The results suggest that perceptions of corruption are pervasive and relatively consistent across geographic locations.
+
+```{r}
+#| label: fig-gender-versus-corruption
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "Gender Vs corruption perceptions. This faceted bar chart shows the relationship between a respondents' gender and how they perceive corruption within the presidency in Nigeria."
+
+# Summarize the data
+corruption_vs_gender <- cleaned_data %>%
+  count(gender, corruption_presidency) %>%
+  group_by(gender) %>%
+  mutate(proportion = n / sum(n)) %>%
+  ungroup()
+
+# Create the faceted bar chart
+ggplot(cleaned_data, aes(x = corruption_presidency, fill = corruption_presidency)) +
+  geom_bar() +
+  facet_wrap(~gender) +
+  labs(
+    title = "Corruption Perceptions by Gender",
+    x = "Corruption Perception",
+    y = "Count of Respondents",
+    fill = "Corruption Perception"
+  ) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+
+
+```
+@fig-gender-versus-corruption shows the the relationship between respondents' gender (male and female) and their perceptions of corruption. Each panel represents one gender, displaying the count of respondents across four corruption perception categories: All Corrupt, High Corruption, Some Corruption, and No Corruption.
+
+The chart shows that both male and female respondents share similar patterns of corruption perception. The High Corruption and Some Corruption categories have the highest counts for both genders, indicating these are the most commonly held views. The All Corrupt category has fewer respondents, while the No Corruption category consistently has the lowest counts for both genders.
+
+These results suggest that gender does not significantly influence perceptions of corruption, as male and female respondents exhibit similar distribution patterns across all perception categories. The findings highlight a shared acknowledgment of corruption as a major issue across genders in Nigeria.
 
 # Model {#sec-model}
 
@@ -664,20 +908,22 @@ groups show minimal variation. These findings are shown in the
 regression estimates and predicted probabilities, as visualized in
 @fig-predicted-probabilities and summarized in @tbl-modelresults.
 
+
 # Discussion
 
-## First discussion point {#sec-first-point}
+This paper looks into public perceptions of corruption within the Nigerian Presidency, using data from Afrobarometer Round 9 survey. A bayesian ordinal logistic regression model was used to evaluate the influence of demographic variables like education, gender, urban/rural residence, and age group on corruption perceptions. We found that higher education levels, urban residency, and gender play significant roles in shaping perceptions, with educated and urban individuals more likely to perceive high levels of corruption in Nigeria. 
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The
-discussion is a chance to show off what you know and what you learnt
-from all this.
+## The Role of Education in Shaping Corruption Perceptions {#sec-first-point}
 
-## Second discussion point
 
-Please don't use these as sub-heading labels - change them to be what
-your point actually is.
+## Urban-Rural Disparities in Perception
 
-## Third discussion point
+
+
+## Gender Dynamics in Corruption Perception 
+
+## Policy Implications 
+
 
 ## Weaknesses and next steps
 

@@ -9,10 +9,6 @@
 
 
 #### Workspace setup ####
-if (!requireNamespace("testthat", quietly = TRUE)) install.packages("testthat")
-if (!requireNamespace("validate", quietly = TRUE)) install.packages("validate")
-if (!requireNamespace("pointblank", quietly = TRUE)) install.packages("pointblank")
-
 library(testthat)
 library(validate)
 library(pointblank)
