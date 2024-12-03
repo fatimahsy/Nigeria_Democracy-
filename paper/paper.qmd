@@ -1,6 +1,6 @@
 ---
 title: "Shaping Anti-Corruption Campaigns in Nigeria"
-subtitle: "Youth Populations, Urban Areas and Moderately Educated Citizens Are Critical for Anti-Corruption Campaigns "
+subtitle: "Youth Populations, Urban Areas and Moderately Educated Citizens Are Important for Anti-Corruption Campaigns "
 author: 
   - Fatimah Yunusa
 thanks: "Code and data are available at:https://github.com/fatimahsy/Nigeria_Democracy-"
@@ -22,12 +22,7 @@ editor:
 #| message: false
 #| label: setup
 
-#install.packages("modelsummary")
-#install.packages("rstanarm")
-#install.packages("dplyr")
-#install.packages("here")
-#install.packages("arrow")
-#install.packages("tinytable")
+
 library(modelsummary)
 library(rstanarm)
 library(dplyr)
@@ -53,10 +48,10 @@ Primarily, this paper is aimed at understanding how different demographic groups
 
 Our paper shows that there are alot of disparities in corruption perceptions across demographic groups. Younger respondents and urban residents have higher perceptions of corruption, likely because of higer exposure to investigative media and political discourse. In contrast, rural populations-often reliant on patronage systems- tend to report more neutral views. Education also plays an important role since we find that secondary school graduates have the highest corruption perceptions.
 
-Understanding these demographic differences is important for designing effective anti-corruption campaigns. Making sure outreach efforts are tailored to the unique experiences and perceptions of different demographic groups can increase their effectiveness and increase public trust. For example, youth-focused campaigns that leverage social media platforms and urban outreach using investigative journalism can engage the people. At the same time, localized, culturally appropriate campaigns in rural areas can address the different needs of these populations. A the UNODC emphasizes, 'targeted and effective anti-corruption policies will improve likes of Nigerian citizens" [@afrobarometer2023]. 
+Understanding these demographic differences is important for designing effective anti-corruption campaigns. Making sure outreach efforts are tailored to the unique experiences and perceptions of different demographic groups can increase their effectiveness and increase public trust. For example, youth-focused campaigns that use social media platforms and urban outreach using investigative journalism can engage the people. At the same time, localized, culturally appropriate campaigns in rural areas can address the different needs of these populations. A the UNODC emphasizes, 'targeted and effective anti-corruption policies will improve likes of Nigerian citizens" [@afrobarometer2023]. 
 
 
-The remainder of this paper is structured as follows; @sec-data detailed the data used for this paper, @sec-model introduces the Bayesian ordinal logistic regression model used to study the relationship between our variables of interest. @sec-results presents the findings from the model, detailing how different demographic factors like education and age affect corruption perception in Nigeria. @sec-discussion examines these results, discussing their implications for anti-corruption policies, weaknesses and next steps. @sec-survey-appendix explores the details of the Afrobarometer survey. @sec-model-details shows plots for Posterior predictive checks and Diagnostics as well as their analysis. @sec-survey-appendix details the survey methodology used in the Afrobaromenter data and @sec-ethics addresses key ethical principles and the ethical challenges of surveying sensitive topics like corruption. 
+The remainder of this paper is structured as follows; @sec-data detailed the data used for this paper, @sec-model introduces the Bayesian ordinal logistic regression model used to study the relationship between our variables of interest. @sec-results presents the findings from the model, detailing how different demographic factors like education and age affect corruption perception in Nigeria. @sec-discussion examines these results, discussing their implications for anti-corruption policies, weaknesses and next steps. @sec-survey-appendix explores the details of the Afrobarometer survey. @sec-model-details shows plots for Posterior predictive checks and Diagnostics as well as their analysis. @sec-survey-appendix details the survey methodology used in the Afrobaromenter data and @sec-ethics addresses very important ethical principles and the ethical challenges of surveying sensitive topics like corruption. 
 
 # Data {#sec-data}
 
@@ -82,7 +77,7 @@ socio-political and economic context, such as public attitudes toward
 democracy, demand for governance accountability, and perceived economic
 conditions. These phenomena are operationalized into survey questions
 that are clear, culturally sensitive, and tailored to elicit meaningful
-responses.
+responses [@Afrobarometer2022codebook].
 
 For example:
 
@@ -98,19 +93,17 @@ For example:
     stem from tangible experiences like inflation, unemployment, or
     changes in public service delivery.
 
-Each survey question acts as a data proxy for these complex real-world
-dynamics, reducing them to quantifiable variables while maintaining
-their conceptual integrity.
-
-This dataset captures a unique moment in Nigeria's socio-political
-landscape, reflecting how citizens perceive democracy and governance in
+Each survey question acts as a data proxy for these real-world
+dynamics, reducing them to quantifiable variables while keeping
+their conceptual integrity.This dataset shows a unique moment in Nigeria's socio-political
+landscape, showing how citizens perceive democracy and governance in
 the context of ongoing economic and political challenges. Alternative
 datasets, such as Nigeria’s national statistics or World Bank survey
-data, could provide economic indicators but lack the granularity of
+data, could provide economic indicators but do not have the granularity of
 Afrobarometer’s public opinion data.
 
 The data for this study was downloaded, cleaned, analyzed, modeled, and
-visualized using R [@citeR], a statistical programming language.[@afrobarometer2023] served as the primary data source, providing valuable survey data for analysis.***Telling Stories with Data*** [@tellingstories] was referenced for its code and methodologies. The
+visualized using R [@citeR], a statistical programming language.[@afrobarometer2023] served as the primary data source, providing importantsurvey data for analysis.***Telling Stories with Data*** [@tellingstories] was referenced for its code and methodologies. The
 following packages were used:
 
 -   **`modelsummary`** [@modelsummary]: Used to create well-formatted
@@ -153,8 +146,7 @@ following packages were used:
 #| message: false
 #| tbl-cap: "Preview of the Cleaned Dataset"
 
-#install.packages("knitr")
-#install.packages("kableExtra")
+
 library(knitr)
 library(kableExtra)
 
@@ -263,7 +255,7 @@ kable(
 ```
 
 The cleaned dataset used in this study is summarised in
-@tbl-summary-statistics, which provides key statistics to offer an
+@tbl-summary-statistics, which provides important statistics to provide an
 overview of the dataset's structure and characteristics. The most
 frequent age group among respondents is identified, representing the
 predominant demographic in terms of age. The table also highlights the
@@ -272,11 +264,11 @@ residents (43.38%) and male respondents (49.68%) in the sample.
 
 Further, the table breaks down the perceptions of corruption into four
 categories—"None," "Some," "High," and "All"—with counts for each,
-offering insights into respondents' views on corruption in the
+offering information into respondents' views on corruption in the
 presidency. Additionally, the table details the distribution of
 respondents across education levels, including categories such as
 "Primary," "Secondary," "University," and "Postgraduate." Together,
-these summary statistics provide a comprehensive snapshot of the
+these summary statistics provide a very detailed snapshot of the
 dataset, enabling a clear understanding of its demographic and
 categorical variables.
 
@@ -323,7 +315,7 @@ levels, ranging from No Formal Schooling to Post-graduate. The intensity
 of the color reflects the number of respondents, with darker shades
 indicating higher counts.
 
-The heatmap reveals that respondents who completed secondary school or
+The heatmap shows that respondents who completed secondary school or
 some secondary schooling dominate the High Corruption and Some
 Corruption categories. Respondents with higher education levels
 (university and post-graduate) are distributed more evenly across the
@@ -429,7 +421,7 @@ urban) and their perceptions of corruption is shown in
 respondents within rural and urban groups who hold different corruption
 perceptions.
 
-The chart reveals that rural and urban respondents share similar
+The chart shows that rural and urban respondents share similar
 patterns of corruption perception. The majority of respondents in both
 groups fall under the Some Corruption and High Corruption categories,
 with Some Corruption being slightly more prevalent. The All Corrupt
@@ -614,8 +606,7 @@ addressing the research question.
 #| tbl-cap: "Summary of the Ordinal Logistic regression model"
 #| warning: false
 
-#install.packages("broom.mixed")
-#install.packages("kableExtra")
+
 
 library(broom.mixed)
 library(kableExtra)
@@ -697,7 +688,7 @@ predictor on the likelihood of perceiving higher corruption levels in
 the presidency.
 
 Higher education levels consistently show positive probabilities,
-indicating that individuals with more advanced education levels are more
+indicating that individuals with higher education levels are more
 likely to perceive higher corruption levels. Living in rural areas has a
 significantly negative probability, suggesting that rural residents are
 less likely to perceive high corruption compared to urban residents.
@@ -756,7 +747,7 @@ services, often exhibit more neutral or unclear perceptions of
 corruption, influenced by limited media access and dependency on these
 informal systems. Campaigns should focus on leveraging urban platforms
 like social media, community-based programs, and public dialogues to
-engage critical urban audiences, while also expanding rural outreach
+engage important urban audiences, while also expanding rural outreach
 through local radio, grassroots organizations, and educational
 interventions tailored to these settings.
 
@@ -793,7 +784,7 @@ targeting both genders.
 
 This paper is focused on looking at trends in the corruption perception
 between different demographics and seeing how these differences can be
-leveraged to maximize anti corruption campaigns and policy in
+used to maximize anti corruption campaigns and policy in
 Nigeria.From this paper, we find different actionable strategies for
 improving the effectiveness of anti-corruption campaigns in Nigeria.
 First, targeting rural and urban populations differently might be
@@ -808,7 +799,7 @@ communication strategies like community radio, local town halls, and
 collaborations with trusted community leaders are better suited to
 disseminate anti-corruption messaging.
 
-Education also emerges as a key determinant of corruption perceptions.
+Education also emerges as an important determinant of corruption perceptions.
 Secondary school graduates exhibit the highest levels of awareness, this
 suggests that civic education campaigns should focus on this demographic
 to harness their increased engagement. Integrating anti-corruption
@@ -822,9 +813,9 @@ this demographic's energy into organized anti-corruption efforts.
 
 Lastly, rebuilding public trust in institutions should be a priority.
 Transparent hiring practices, visible enforcement of anti-corruption
-laws, and strengthened whistleblower protections are important steps to
+laws, and strengthened whistle blower protections are important steps to
 showing institutional accountability. Localized outreach through
-community leaders can also help bridge the trust gap, particularly in
+community leaders can also help fix the trust divide, particularly in
 rural settings. Policymakers should put these findings into a
 data-driven framework so they can adapt strategies based on demographic
 trends and feedback.
@@ -908,7 +899,7 @@ The Probability Proportional to Population Size (PPPS) sampling method makes sur
 
 - Conflict Zones: Areas affected by conflict or logistical challenges may be excluded, limiting geographic coverage.
 
-- Africa-Wide Generalization: While Afrobarometer provides national-level insights, its findings cannot be generalized to the entire continent due to contextual variations.
+- Africa-Wide Generalization: While Afrobarometer provides national-level information, its findings cannot be generalized to the entire continent due to contextual variations.
 
 ## Ethics considerations {#sec-ethics}
 
@@ -949,56 +940,23 @@ Afrobarometer takes significant steps to ensure ethical data handling and dissem
 
 Despite its robust framework, Afrobarometer’s approach could be improved in the following areas:
 
-- **Inclusion of Marginalized Populations**: Future iterations could include anonymous digital surveys to capture insights from institutionalized or transient populations.
+- **Inclusion of Marginalized Populations**: Future surveys could include anonymous digital surveys to take from institutionalized or transient populations.
 - **Addressing Non-Response Bias**: Enhanced recruitment strategies, such as partnerships with community organizations, could increase participation among underrepresented groups.
 - **Community Engagement**: Sharing results directly with communities through accessible formats (e.g., infographics or local town halls) would increase transparency and accountability.
 
 ### Conclusion
 
-The ethical considerations underpinning Afrobarometer’s methodology ensure the credibility and validity of its findings while safeguarding respondent dignity. However, addressing remaining gaps—such as the exclusion of certain populations and challenges in conflict zones—would further enhance the ethical rigor of corruption perception research in Africa. By adhering to established ethical frameworks and remaining responsive to emerging challenges, studies like this can continue to provide valuable insights while maintaining the highest ethical standards.To do my part in ensuring ethical standards are upheld, i have included a datasheet for the Afrobarometer dataset.
+The ethical considerations underpinning Afrobarometer’s methodology ensure the credibility and validity of its findings while safeguarding respondent dignity. However, addressing remaining gaps—such as the exclusion of certain populations and challenges in conflict zones—would further enhance the ethical rigor of corruption perception research in Africa. By adhering to established ethical frameworks and remaining responsive to emerging challenges, studies like this can continue to give important information while maintaining the highest ethical standards.To do my part in ensuring ethical standards are upheld, i have included a datasheet for the Afrobarometer dataset.
 
 
 # Additional data details
 
-```{r}
-#| label: fig-variables-of-interest-heatmap
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-#| fig.cap: "combined variables of interest"
-
-#install.packages("tidyr")
-library(tidyr)
-# Combine data for heatmap
-heatmap_data <- cleaned_data %>%
-  pivot_longer(
-    cols = c(URBRUR, corruption_presidency, education, age_group),
-    names_to = "variable",
-    values_to = "category"
-  ) %>%
-  count(variable, category) %>%
-  mutate(variable = factor(variable, levels = c("URBRUR", "corruption_presidency", "education", "age_group")))
-
-# Create heatmap
-ggplot(heatmap_data, aes(x = category, y = variable, fill = n)) +
-  geom_tile(color = "white") +
-  scale_fill_gradient(low = "lightblue", high = "darkblue") +
-  labs(
-    title = "Heatmap of Variable Distributions",
-    x = "Category",
-    y = "Variable",
-    fill = "Count"
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1)
-  )
+@fig-demo The figure provides an overview of demographic variables and corruption perceptions from the Afrobarometer Nigeria Round 9 survey. Rural residents constitute a larger share of the sample, aligning with Nigeria's predominantly rural demographic landscape. Corruption perception data shows that "High Corruption" and "Some Corruption" dominate public opinion. The education level distribution highlights the prevalence of basic education, with the majority of respondents having completed secondary school. Finally, the age distribution indicates that the 25–34 age group is the most represented cohort, suggesting that young adults play a crucial role in shaping perceptions of corruption and governance in Nigeria.
+![Demographic Distributions of the Afrobarometer Data](combined_plot.png){#fig-demo width="120%"}
 
 
-```
 
-![Combined plot](combined_plot.png){width="120%"}
+
 
 # Model details {#sec-model-details}
 
