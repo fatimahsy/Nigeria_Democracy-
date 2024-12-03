@@ -1,0 +1,187 @@
+---
+title: "Datasheet for 'Afrobarometer Round 9 Nigeria Survey'"
+author: 
+  - Fatimah Yunusa
+thanks: "all information used to compile this datasheet was obtained from the following: [Afrobarometer Survey Manual](https://www.afrobarometer.org/wp-content/uploads/2022/07/AB_R9.-Survey-Manual_eng_FINAL_20jul22.pdf), [Nigeria Round 9 codebook 2022](https://www.afrobarometer.org/survey-resource/nigeria-round-9-codebook-2022/) "
+date: today
+date-format: long
+abstract: "This datasheet describes the Afrobarometer Round 9 Nigeria survey dataset, which explores public perceptions of governance, corruption, and socio-political dynamics in Nigeria. The dataset comprises responses from Nigerian citizens aged 18 and older, collected using a robust sampling methodology designed to ensure representativeness. The survey data inform research on demographic and geographic factors influencing public opinion, with applications in governance, policy-making, and academic research."
+format: pdf
+toc: true
+number-sections: true
+---
+
+
+## **Motivation**
+
+1. *For what purpose was the dataset created? Was there a specific task in mind? Was there a specific gap that needed to be filled? Please provide a description.*
+    - The dataset was created to provide insights into public attitudes on governance, corruption, democracy, and socio-economic issues in Africa, particularly Nigeria. It addresses the need for representative, standardized data on public opinion to inform policy-making, academic research, and civic engagement.
+
+2. *Who created the dataset (for example, which team, research group) and on behalf of which entity (for example, company, institution, organization)?*
+    - The dataset was created by Afrobarometer, a pan-African research organization, in partnership with local country teams in Nigeria.
+
+3. *Who funded the creation of the dataset? If there is an associated grant, please provide the name of the grantor and the grant name and number.*
+    - Afrobarometer is funded by multiple international organizations, including the Swedish International Development Cooperation Agency (SIDA), USAID, and the Mo Ibrahim Foundation.
+
+4. *Any other comments?*
+    - This dataset is part of a larger effort to collect comparable public opinion data across Africa.
+
+
+## **Composition**
+
+1. *What do the instances that comprise the dataset represent?*
+	- The dataset represents individual survey responses from Nigerian citizens aged 18 and older.
+
+2. *How many instances are there in total?*
+	- The dataset includes approximately 2,400 individual responses.
+
+3. *Does the dataset contain all possible instances or is it a sample from a larger set?*
+	- The dataset is a probability sample representing the adult population of Nigeria. It is stratified by gender, urban/rural location, and geographic region to ensure representativeness.
+
+4. *What data does each instance consist of?*
+	- Each instance includes raw survey responses, such as demographic information (e.g., age, gender, education), and responses to opinion questions on governance, corruption, and democracy.
+
+5. *Is there a label or target associated with each instance?*
+	- The primary variable of interest is "perception of corruption in the presidency," measured on an ordinal scale.
+
+6. *Is any information missing from individual instances?*
+	- Some responses are missing due to non-responses or participants declining to answer specific questions.
+
+7. *Are relationships between individual instances made explicit?*
+	- No, each survey response is independent.
+
+8. *Are there recommended data splits?*
+	- No recommended splits are provided as the dataset is observational and intended for analysis.
+
+9. *Are there any errors, sources of noise, or redundancies in the dataset?*
+	- Potential sources of noise include respondent misinterpretation of questions and social desirability bias.
+
+10. *Is the dataset self-contained, or does it link to external resources?*
+	- The dataset is self-contained, with supplementary documentation available on Afrobarometer's website.
+
+11. *Does the dataset contain data that might be considered confidential?*
+	- No personal identifiers are included, ensuring anonymity.
+
+12. *Does the dataset contain potentially offensive data?*
+	- No, but responses on corruption perceptions may evoke strong opinions.
+
+13. *Does the dataset identify any sub-populations?*
+	- Yes, demographic sub-populations such as age, gender, and geographic region are identified.
+
+14. *Is it possible to identify individuals from the dataset?*
+	- No, all responses are anonymized.
+
+15. *Does the dataset contain data that might be considered sensitive?*
+	- Yes, responses on corruption perceptions may reflect sensitive political opinions.
+
+16. *Any other comments?*
+	- The dataset provides a unique opportunity to analyze public attitudes toward governance in Nigeria.
+
+
+## **Collection Process**
+
+1. *How was the data acquired?*
+	- Data were collected through face-to-face interviews using a standardized questionnaire.
+
+2. *What mechanisms or procedures were used to collect the data?*
+	- Trained enumerators conducted in-person interviews following Afrobarometer's standardized methodology.
+
+3. *What was the sampling strategy?*
+	- A stratified, clustered, multi-stage, probability sampling design was used, with random selection at each stage.
+
+4. *Who was involved in the data collection process and how were they compensated?*
+	- Local enumerators were hired and compensated based on Afrobarometer's guidelines.
+
+5. *Over what timeframe was the data collected?*
+	- Data collection for Round 9 in Nigeria occurred over a period of several weeks in 2022.
+
+6. *Were any ethical review processes conducted?*
+	- Ethical reviews were conducted by Afrobarometer-affiliated institutions, including the University of Cape Town's ethics board.
+
+7. *Did you collect the data directly or obtain it via third parties?*
+	- Afrobarometer collected the data directly through trained field teams.
+
+8. *Were individuals notified about the data collection?*
+	- Yes, individuals were informed during the consent process.
+
+9. *Did individuals consent to the collection and use of their data?*
+	- Verbal consent was obtained from all participants.
+
+10. *Was there a mechanism to revoke consent?*
+	- Participants could decline to answer questions or terminate the interview at any time.
+
+11. *Has an analysis of the potential impact of the dataset been conducted?*
+	- Yes, Afrobarometer considers the social and political sensitivities of its data collection processes.
+
+12. *Any other comments?*
+	- Afrobarometer’s methods prioritize participant dignity and safety.
+
+
+
+## **Preprocessing/Cleaning/Labeling**
+
+1. *Was any preprocessing/cleaning/labeling of the data done?*
+	- Yes, data were cleaned to remove incomplete or invalid responses.
+
+2. *Was the "raw" data saved in addition to the preprocessed data?*
+	- Yes, raw data are stored securely for archival purposes.
+
+3. *Is the preprocessing software available?*
+	- Afrobarometer’s data processing scripts are not publicly available.
+
+4. *Any other comments?*
+	- Preprocessing ensures data integrity and consistency.
+
+
+
+## **Uses**
+
+1. *Has the dataset been used for any tasks already?*
+	- Yes, it has been used for research on governance, democracy, and public opinion.
+
+2. *Is there a repository that links to all papers using the dataset?*
+	- Afrobarometer maintains a database of publications using its datasets.
+
+3. *What (other) tasks could the dataset be used for?*
+	- The dataset could inform policy-making, academic studies, and civic advocacy.
+
+4. *Are there tasks for which the dataset should not be used?*
+	- The dataset should not be used to misrepresent public opinion or marginalize specific groups.
+
+
+
+## **Distribution**
+
+1. *Will the dataset be distributed to third parties?*
+	- Yes, it is publicly available on Afrobarometer’s website.
+
+2. *How will the dataset be distributed?*
+	- Through Afrobarometer’s online data portal, free of charge.
+
+3. *When will the dataset be distributed?*
+	- It is already publicly available.
+
+4. *Will the dataset be distributed under a license?*
+	- Yes, Afrobarometer’s terms of use apply.
+
+5. *Do any export controls or other regulatory restrictions apply?*
+	- None.
+
+
+
+## **Maintenance**
+
+1. *Who will be supporting/hosting/maintaining the dataset?*
+	- Afrobarometer.
+
+2. *How can the owner/curator/manager of the dataset be contacted?*
+	- Through Afrobarometer’s official website.
+
+3. *Will the dataset be updated?*
+	- Updates occur with each survey round.
+
+4. *Will older versions of the dataset continue to be supported?*
+	- Yes, historical datasets remain available.
+
+
+

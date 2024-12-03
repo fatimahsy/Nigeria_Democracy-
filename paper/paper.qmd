@@ -56,7 +56,7 @@ Our paper shows that there are alot of disparities in corruption perceptions acr
 Understanding these demographic differences is important for designing effective anti-corruption campaigns. Making sure outreach efforts are tailored to the unique experiences and perceptions of different demographic groups can increase their effectiveness and increase public trust. For example, youth-focused campaigns that leverage social media platforms and urban outreach using investigative journalism can engage the people. At the same time, localized, culturally appropriate campaigns in rural areas can address the different needs of these populations. A the UNODC emphasizes, 'targeted and effective anti-corruption policies will improve likes of Nigerian citizens" [@afrobarometer2023]. 
 
 
-The remainder of this paper is structured as follows; @sec-data detailed the data used for this paper, @sec-model introduces the Bayesian ordinal logistic regression model used to study the relationship between our variables of interest. @sec-results presents the findings from the model, detailing how different demographic factors like education and age affect corruption perception in Nigeria. @sec-discussion examines these results, discussing their implications for anti-corruption policies, weaknesses and next steps. @sec-survey-appendix explores the details of the Afrobarometer survey. @sec-model-details shows plots for Posterior predictive checks and Diagnostics as well as their analysis. 
+The remainder of this paper is structured as follows; @sec-data detailed the data used for this paper, @sec-model introduces the Bayesian ordinal logistic regression model used to study the relationship between our variables of interest. @sec-results presents the findings from the model, detailing how different demographic factors like education and age affect corruption perception in Nigeria. @sec-discussion examines these results, discussing their implications for anti-corruption policies, weaknesses and next steps. @sec-survey-appendix explores the details of the Afrobarometer survey. @sec-model-details shows plots for Posterior predictive checks and Diagnostics as well as their analysis. @sec-survey-appendix details the survey methodology used in the Afrobaromenter data and @sec-ethics addresses key ethical principles and the ethical challenges of surveying sensitive topics like corruption. 
 
 # Data {#sec-data}
 
@@ -726,7 +726,7 @@ anti-corruption camapigns and policy making. The Bayesian modeling
 approach helps us understand the relationship between corruption
 perceptions and these demographic variables.
 
-## Tareting Education Levels in Anti-Corruption Campaigns {#sec-first-point}
+## Tareting Education Levels in Anti-Corruption Campaigns
 
 The relationship between education and corruption perceptions shows that
 respondents with secondary school education are the most likely to
@@ -864,15 +864,99 @@ to peoples' lived corruption experiences.
 
 # Appendix {.unnumbered}
 
-# Surveys, Sampling, and Observational Data {#sec-survey-appendix}
+# Surveys, Sampling, and Observational Data
 
-## Survey Methodolgy and Design 
+## Aforbarometer Methodology Overview and Evaluation {#sec-survey-appendix}
 
-## Sampling Techniques
+### Overview 
 
-## Observational Data Challenges 
+Afrobarometer is a  pan-African, non-partisan survey research network established to measure public attitudes on democracy, governance, economic reform, civil society, and quality of like in Africa. It relies predominantly on in-person interviews using a standard questionnaire. The project covers up to 40 countries in Africa. The information collected is intended to be used by various parties including policymakers, activists,teachers and scholars. The surveys are conducted using a standardized questionnaire tailored to specific countries through a process called "indigenization", ensuring relevance to local contexts while keeping comparability across nations [@survey_manual_2022]. 
 
-## Proposed Improvements 
+### Population and sampling frame 
+
+The Afrobarometer surveys target all citizens of voting age, typically 18 and above, excluding individuals living in institutions such as prisons, military barracks, or hospitals. The sampling frame is based on the most recent official national census. When census data is outdated, population estimates or projections are used to ensure relevance. The surveys employ a clustered, stratified, multi-stage probability sample design, where:
+
+- Clustered sampling groups respondents geographically to reduce costs and logistical complexity.
+
+- Stratified sampling divides the population into subgroups (e.g., urban/rural or regions) to ensure proportional representation.
+
+- Multi-stage sampling involves multiple rounds of random selection, narrowing down from regions to individual households and respondents.
+
+
+### Respondent Recruitment 
+
+Afrobarometer follows strict protocols to ensure randomness and gender balance during respondent selection. Interviewers alternate genders with each new interview, starting each day with the gender opposite to the last interview conducted the previous day. If no eligible respondent of the next household. Interviews are conducted only after securing informed consent from the respondents, making sure to keep up with ethical guidelines to ensure respect and confidentiality [@survey_manual_2022]. 
+
+### Smpling Approach 
+
+The Probability Proportional to Population Size (PPPS) sampling method makes sure that regions with larger populations have a higher chance of being selected. In urban areas, the sampling process typically has four stages: selection of Primary Sampling Units (PSUs) based on population size, random selection of Enumeration Areas (EAs) within PSUs, systemic selection of households within each EA, random selection of respondents within household [@survey_manual_2022]. In rural areas, an additional stage may be introduced to make sure representativeness across dispersed populations. By using PPPS and randomization at every stage, Afrobarometer minimizes biases and makes sure data is collected efficiently [@survey_manual_2022].
+
+
+### Strengths and Limitations 
+
+**Strengths:**
+
+- Random Selection: Ensures every adult citizen has an equal chance of being selected, enhancing representativeness.
+
+- Proportional Sampling: PPPS ensures larger and more populous regions are adequately represented.
+
+- Localized Surveys: Conducted in local languages to ensure accessibility and reduce misinterpretation of questions.
+
+**Limitations:**
+
+- Institutional Exclusion: Citizens in prisons, military barracks, and similar institutions are excluded, potentially overlooking significant perspectives.
+
+- Conflict Zones: Areas affected by conflict or logistical challenges may be excluded, limiting geographic coverage.
+
+- Africa-Wide Generalization: While Afrobarometer provides national-level insights, its findings cannot be generalized to the entire continent due to contextual variations.
+
+## Ethics considerations {#sec-ethics}
+
+### Overview of Afrobarometer’s Ethical Framework
+
+Afrobarometer adheres to  ethical standards to ensure the protection and dignity of survey respondents. Here are the important components of their ethical framework:
+
+- **Informed Consent**: Respondents are provided with detailed information about the survey's purpose, topics, and their rights before participation. Verbal consent is obtained to account for literacy variations across surveyed populations [@survey_manual_2022].
+- **Confidentiality and Anonymity**: Personal identifiers are removed during data processing, and data are stored securely to maintain respondent privacy.
+- **Cultural Sensitivity**: Questionnaires are carefully pre-tested and translated into local languages, ensuring they are culturally appropriate and easily understood.
+
+These practices align with established ethical principles in social science research, including those outlined by the World Association for Public Opinion Research [@waporethics].
+
+### Ethical Challenges in Corruption Perception Surveys
+
+Researching perceptions of corruption has unique ethical challenges because of the sensitive and sometimes dangerous nature of corruption:
+
+- **Risks to Respondents**: Respondents may fear repercussions for expressing negative views about governance. Afrobarometer mitigates this risk by emphasizing anonymity and employing well-trained enumerators who follow strict protocols [@survey_manual_2022].
+- **Power Dynamics**: Interviewers may inadvertently influence responses due to perceived power imbalances. Afrobarometer addresses this by alternating gender in interviews and training enumerators to minimize bias.
+
+### Sampling and Recruitment Ethics
+
+Afrobarometer’s methodology includes a very detailed sampling framework designed to enhance inclusivity and fairness. However, there are still some ethical concerns:
+
+- **Exclusion of Institutional Populations**: Individuals in prisons, military barracks, and similar institutions are excluded, potentially omitting perspectives from disenfranchised groups [@survey_manual_2022].
+- **Gender Quotas**: The enforcement of equal gender representation ensures that women's voices are equally captured, addressing historical disparities in research participation [@survey_manual_2022].
+- **Regional and Security Constraints**: Some areas, particularly conflict zones, may be inaccessible, leading to under representation in survey findings.This is particularly the cause in North-Eastern Nigeria which as a result of criminal groups like Boko Haram, has made it virtually impossible to access that region safely. 
+
+### Ethical Data Management and Reporting
+
+Afrobarometer takes significant steps to ensure ethical data handling and dissemination:
+
+- **Data Security**: Survey data are encrypted during storage and transmission, ensuring compliance with data protection regulations.
+- **Transparent Reporting**: Reports explicitly document survey limitations, including regions excluded due to security or logistical challenges.
+- **Avoiding Harm**: Results are contextualized to prevent misinterpretation or harm to surveyed populations. Findings are shared responsibly, avoiding language that could inflame tensions.
+
+### Limitations and Future Ethical Enhancements
+
+Despite its robust framework, Afrobarometer’s approach could be improved in the following areas:
+
+- **Inclusion of Marginalized Populations**: Future iterations could include anonymous digital surveys to capture insights from institutionalized or transient populations.
+- **Addressing Non-Response Bias**: Enhanced recruitment strategies, such as partnerships with community organizations, could increase participation among underrepresented groups.
+- **Community Engagement**: Sharing results directly with communities through accessible formats (e.g., infographics or local town halls) would increase transparency and accountability.
+
+### Conclusion
+
+The ethical considerations underpinning Afrobarometer’s methodology ensure the credibility and validity of its findings while safeguarding respondent dignity. However, addressing remaining gaps—such as the exclusion of certain populations and challenges in conflict zones—would further enhance the ethical rigor of corruption perception research in Africa. By adhering to established ethical frameworks and remaining responsive to emerging challenges, studies like this can continue to provide valuable insights while maintaining the highest ethical standards.To do my part in ensuring ethical standards are upheld, i have included a datasheet for the Afrobarometer dataset.
+
 
 # Additional data details
 
