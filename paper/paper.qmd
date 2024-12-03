@@ -6,7 +6,7 @@ author:
 thanks: "Code and data are available at:https://github.com/fatimahsy/Nigeria_Democracy-"
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "Peceptions of corruption in the Nigerian presidency vary significantly across demogrpahic groups. Using Afrobarometer survey data and Bayesisan ordinal logistic regression, this study looks at how education, gender, age, and urban versus rural residence influence these perceptions. The results show that urban residents and yourger individuals are more likely to perceive high corruption, while rura populations and those with higher education show views that are moderate. These results show the need for targeted anti-corruption campaigns to adress demographic differences and imporve governance accountability in Nigeria"
 format: pdf
 toc: true
 number-sections: true
@@ -27,7 +27,7 @@ editor:
 #install.packages("dplyr")
 #install.packages("here")
 #install.packages("arrow")
-#install.packages(tinytable)
+#install.packages("tinytable")
 library(modelsummary)
 library(rstanarm)
 library(dplyr)
@@ -46,16 +46,17 @@ bayesian_model <- readRDS(file = here::here ("models/bayesian_model.rds"))
 
 # Introduction
 
-Overview paragraph
+Corruption is a very big challenge to governance and development in Nigeria as a result of its ability to undermine public trust and economic growth. As the United Nations Office on Drugs and Crime (UNODC) stated, "corruption affects the lives of ordinary Nigerian, impeding development and eroding public trust in institutions [@corruptionsurvey2024]. This paper looks into the role of demographic factors-education,gender,age, and urban versus rural residence-in shaping perceptions of corruption in the Nigerian presidency.
 
-Estimand paragraph
+Primarily, this paper is aimed at understanding how different demographic groups perceive corruption in the Nigerian presidency and to identify ways thiis can help improve anti-corruption campaigns, While existing studies have largely been focused on the institutional dynamics, there seems to be a lack of demographic-specific analysis within the Nigerian context. This paper addresses this gap by making these demographics the focus. It does this by using nationally representative data from Afrobarometer [@afrobarometer2023], a leading survey initiative capturing public attitudes on governance, democracy, and corruption across Africa. A Bayesian ordinal logistic regression was used to find patterns in how education, gender, age, and geographic location influence perceptions of corruption. 
 
-Results paragraph
 
-Why it matters paragraph
+Our paper shows that there are alot of disparities in corruption perceptions across demographic groups. Younger respondents and urban residents have higher perceptions of corruption, likely because of higer exposure to investigative media and political discourse. In contrast, rural populations-often reliant on patronage systems- tend to report more neutral views. Education also plays an important role since we find that secondary school graduates have the highest corruption perceptions.
 
-Telegraphing paragraph: The remainder of this paper is structured as
-follows. @sec-data....
+Understanding these demographic differences is important for designing effective anti-corruption campaigns. Making sure outreach efforts are tailored to the unique experiences and perceptions of different demographic groups can increase their effectiveness and increase public trust. For example, youth-focused campaigns that leverage social media platforms and urban outreach using investigative journalism can engage the people. At the same time, localized, culturally appropriate campaigns in rural areas can address the different needs of these populations. A the UNODC emphasizes, 'targeted and effective anti-corruption policies will improve likes of Nigerian citizens" [@afrobarometer2023]. 
+
+
+The remainder of this paper is structured as follows; @sec-data detailed the data used for this paper, @sec-model introduces the Bayesian ordinal logistic regression model used to study the relationship between our variables of interest. @sec-results presents the findings from the model, detailing how different demographic factors like education and age affect corruption perception in Nigeria. @sec-discussion examines these results, discussing their implications for anti-corruption policies, weaknesses and next steps. @sec-survey-appendix explores the details of the Afrobarometer survey. @sec-model-details shows plots for Posterior predictive checks and Diagnostics as well as their analysis. 
 
 # Data {#sec-data}
 
@@ -65,12 +66,12 @@ For this analysis, i use the Afrobarometer Round 9, Nigeria, 2023
 survey. Afrobarometer conducts surveys that are nationally
 representative across African nations to capture public perceptions on
 topics like governance, democracy, and economic issues. The Nigerian
-Round 9 survey dataset contains responses from 1,556 people and shows the diverse demographic statistics across gender, region,
-and residence type(urban or rural). The data is freely available on the
-Afrobarometer website[@afrobarometer2023] and was collected through a
-multi-stage, stratified sampling method. This is to ensure
-representativeness and enables analysis of different demographics and
-socioeconomic indicators.
+Round 9 survey dataset contains responses from 1,556 people and shows
+the diverse demographic statistics across gender, region, and residence
+type(urban or rural). The data is freely available on the Afrobarometer
+website[@afrobarometer2023] and was collected through a multi-stage,
+stratified sampling method. This is to ensure representativeness and
+enables analysis of different demographics and socioeconomic indicators.
 
 Our primary measurement task is to capture public opinion towards
 economic, political and socioeconomic issues and translate it into
@@ -108,26 +109,42 @@ datasets, such as Nigeria’s national statistics or World Bank survey
 data, could provide economic indicators but lack the granularity of
 Afrobarometer’s public opinion data.
 
-The data for this study was downloaded, cleaned, analyzed, modeled, and visualized using R [@citeR], a statistical programming language. The following packages were used:
+The data for this study was downloaded, cleaned, analyzed, modeled, and
+visualized using R [@citeR], a statistical programming language.[@afrobarometer2023] served as the primary data source, providing valuable survey data for analysis.***Telling Stories with Data*** [@tellingstories] was referenced for its code and methodologies. The
+following packages were used:
 
-- **`modelsummary`** [@modelsummary]: Used to create well-formatted regression tables and summaries.
-- **`rstanarm`** [@rstanarm]: Facilitated Bayesian regression modeling using the Stan backend.
-- **`dplyr`** [@dplyr]: Streamlined data manipulation, transformation, and summarization processes.
-- **`here`** [@here]: Simplified the organization of file paths, improving project reproducibility.
-- **`arrow`** [@arrow]: Enabled efficient handling of large datasets with fast reading and writing capabilities.
-- **`bayesplot`** [@bayesplot]: Assisted in producing diagnostic checks and posterior predictive visualizations for Bayesian models.
-- **`ggplot2`** [@ggplot2]: Provided extensive tools for creating clear and impactful visualizations.
-- **`patchwork`** [@patchwork]: Combined multiple plots into cohesive, professional visuals.
-- **`knitr`** [@knitr]: Enabled dynamic report generation, integrating code, output, and text seamlessly.
-- **`kableExtra`** [@kableExtra]: Enhanced table styling and formatting for clean, professional presentations.
-- **`ggalt`** [@ggalt]: Allowed the creation of specialized plots, enhancing the depth of data visualizations.
-- **`haven`** [@haven]: Facilitated the import of `.sav` survey data from the Afrobarometer.
-- **`broom.mixed`** [@broommixed]: Streamlined the extraction and tidying of results from mixed models for easy analysis and visualization.
-- **`afrobarometer`** [@afrobarometer2023]: Served as the primary data source, providing valuable survey data for analysis.
-- **_Telling Stories with Data_** [@tellingstories]: This book was referenced for its code and methodologies. 
+-   **`modelsummary`** [@modelsummary]: Used to create well-formatted
+    regression tables and summaries.
+-   **`rstanarm`** [@rstanarm]: Facilitated Bayesian regression modeling
+    using the Stan backend.
+-   **`dplyr`** [@dplyr]: Streamlined data manipulation, transformation,
+    and summarization processes.
+-   **`here`** [@here]: Simplified the organization of file paths,
+    improving project reproducibility.
+-   **`arrow`** [@arrow]: Enabled efficient handling of large datasets
+    with fast reading and writing capabilities.
+-   **`bayesplot`** [@bayesplot]: Assisted in producing diagnostic
+    checks and posterior predictive visualizations for Bayesian models.
+-   **`ggplot2`** [@ggplot2]: Provided extensive tools for creating
+    clear and impactful visualizations.
+-   **`patchwork`** [@patchwork]: Combined multiple plots into cohesive,
+    professional visuals.
+-   **`knitr`** [@knitr]: Enabled dynamic report generation, integrating
+    code, output, and text seamlessly.
+-   **`kableExtra`** [@kableExtra]: Enhanced table styling and
+    formatting for clean, professional presentations.
+-   **`ggalt`** [@ggalt]: Allowed the creation of specialized plots,
+    enhancing the depth of data visualizations.
+-   **`haven`** [@haven]: Facilitated the import of `.sav` survey data
+    from the Afrobarometer.
+-   **`broom.mixed`** [@broommixed]: Streamlined the extraction and
+    tidying of results from mixed models for easy analysis and
+    visualization.
+-   ***Telling Stories with Data*** [@tellingstories]: This book was
+    referenced for its code and methodologies.
 
+## Cleaned Data Overview
 
-## Cleaned Data Overview 
 ```{r}
 #| label: tbl-cleaned-data-preview
 #| echo: false
@@ -244,288 +261,27 @@ kable(
   column_spec(2, width = "20em") # Adjust width for better multiline display
 
 ```
-The cleaned dataset used in this study is summarised in @tbl-summary-statistics, which provides key statistics to offer an overview of the dataset's structure and characteristics. The most frequent age group among respondents is identified, representing the predominant demographic in terms of age. The table also highlights the urban and male percentages, which indicate the proportion of urban residents (43.38%) and male respondents (49.68%) in the sample.
 
-Further, the table breaks down the perceptions of corruption into four categories—"None," "Some," "High," and "All"—with counts for each, offering insights into respondents' views on corruption in the presidency. Additionally, the table details the distribution of respondents across education levels, including categories such as "Primary," "Secondary," "University," and "Postgraduate." Together, these summary statistics provide a comprehensive snapshot of the dataset, enabling a clear understanding of its demographic and categorical variables.  
+The cleaned dataset used in this study is summarised in
+@tbl-summary-statistics, which provides key statistics to offer an
+overview of the dataset's structure and characteristics. The most
+frequent age group among respondents is identified, representing the
+predominant demographic in terms of age. The table also highlights the
+urban and male percentages, which indicate the proportion of urban
+residents (43.38%) and male respondents (49.68%) in the sample.
 
+Further, the table breaks down the perceptions of corruption into four
+categories—"None," "Some," "High," and "All"—with counts for each,
+offering insights into respondents' views on corruption in the
+presidency. Additionally, the table details the distribution of
+respondents across education levels, including categories such as
+"Primary," "Secondary," "University," and "Postgraduate." Together,
+these summary statistics provide a comprehensive snapshot of the
+dataset, enabling a clear understanding of its demographic and
+categorical variables.
 
+## Corruption Perceptions Vs Variables of Interest
 
-## Variables of Interest
-```{r}
-#| label: fig-urban-rural-distribution
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-#| fig.cap: " Urban vs Rural Respondent Distribution. This bar chart compares the number of respondents residing in urban versus rural areas in Nigeria."
-
-# Plot: Urban vs Rural Respondent Distribution
-cleaned_data %>%
-  count(URBRUR) %>%
-  ggplot(aes(x = URBRUR, y = n, fill = URBRUR)) +
-  geom_bar(stat = "identity") +
-  labs(
-    title = "Urban vs Rural Respondent Distribution",
-    x = "Respondent Location",
-    y = "Number of Respondents"
-  ) +
-  theme_minimal() +
-  scale_fill_manual(
-    values = c("Urban Residents" = "blue", "Rural Residents" = "gray")
-  ) +
-  guides(fill = "none")
-
-```
-
-@fig-urban-rural-distribution illustrates the distribution of survey
-respondents based on their residential location, categorized as urban or
-rural. From this, we see that the sample has more rural residents
-compared to urban residents. Specifically, the Afrobarometer survey for
-Nigeria, conducted in 2022, reports that approximately 53% of Nigeria's
-population resides in rural areas, this is is consistent with national
-demographic trends [@worldbank2022rural]. This rural-urban distribution
-is important for helping us understand the perspectives seen in the
-survey, since rural populations may have different challenges in
-governance and corruption compared to urban populations. The imbalance
-in representation shows that looking at geographical disparities when
-interpreting results from nationwide surveys is important.
-
-```{r}
-#| label: fig-corruption-presidency
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-#| fig.cap: "Perceived Corruption in the Presidency. This bar chart shows the distribution of respondents' perceptions of corruption in the presidency in Nigeria."
-
-# Plot: Perceived Corruption in the Presidency
-cleaned_data %>%
-  count(corruption_presidency) %>%
-  ggplot(aes(x = corruption_presidency, y = n, fill = corruption_presidency)) +
-  geom_bar(stat = "identity") +
-  labs(
-    title = "Perceived Corruption in the Presidency",
-    x = "Perception of Corruption",
-    y = "Number of Respondents"
-  ) +
-  theme_minimal() +
-  scale_fill_manual(
-    values = c("No Corruption" = "green", 
-               "Some Corruption" = "yellow", 
-               "High Corruption" = "red", 
-               "All Corrupt" = "purple")
-  ) +
-  guides(fill = "none")
-
-```
-
- @fig-corruption-presidency presents the distribution of respondents'
-perceptions of corruption within the Nigerian presidency. The variable
-"Perceived Corruption in the Presidency" captures respondents'
-perceptions of the extent of corruption within the Nigerian presidency
-and its officials. This variable originates from Question 38A of the
-Afrobarometer survey, which asked: *"How many of the following people do
-you think are involved in corruption, or haven’t you heard enough about
-them to say: the president and officials in his office?"*
-[@Afrobarometer2022codebook] Respondents could choose from the following
-values:
-
--   **0 (None)**: Indicates that the respondent perceives no corruption
-    in the office of the presidency.
--   **1 (Some of them)**: Suggests that the respondent believes a few
-    individuals in the presidency are involved in corruption.
--   **2 (Most of them)**: Reflects the perception that corruption is
-    prevalent among the majority of the presidency's officials.
--   **3 (All of them)**: Suggests the respondent perceives widespread
-    corruption, implicating all officials in the presidency.
--   **8 (Refused)**: Indicates the respondent declined to answer the
-    question.
--   **9 (Don’t know/Haven’t heard enough)**: Suggests the respondent was
-    unsure or lacked sufficient knowledge to provide an answer.
--   **-1 (Missing)**: Represents missing or unavailable responses.
-
-For the analysis, only the substantive responses (0-3) were considered,
-in order to help us look into perceptions of corruption within the
-presidency. The high frequency of responses in the "High Corruption" and
-"Some Corruption" categories reflects persistent concerns about the
-integrity of key officials in Nigeria, aligning with broader findings on
-corruption in the region. @fig-corruption-presidency presents the
-distribution of respondents' perceptions of corruption within the
-Nigerian presidency. Among these, the category "High corruption" is the
-most frequently reported, followed by "Some corruption". "All corrupt"
-ranks third, with "No Corruption" being the least chosen category which
-is no surprise given our data is in the context of Nigeria. These
-proportions show significant public concern about corruption within the
-presidency, consistent with broader trends in public concern abut
-corruption corruption within the presidency in Nigeria.
-
-```{r}
-#| label: fig-dumbbell-education
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-#| fig.cap: "Distribution of Education Levels in Nigeria"
-#install.packages("ggalt")
-library(ggalt)
-
-cleaned_data %>%
-  count(education) %>%
-  ggplot(aes(x = n, y = reorder(education, n))) +
-  geom_dumbbell(
-    aes(xend = 0, x = n), 
-    size = 3, colour = "darkblue", dot_guide = TRUE
-  ) +
-  theme_minimal() +
-  labs(
-    title = "Distribution of Education Levels in Nigeria",
-    x = "Number of Respondents", y = "Education Level"
-  )
-
-
-
-```
-
-@fig-dumbbell-education visually represents the educational attainment
-levels of respondents in the Afrobarometer survey for Nigeria. The data
-reflects responses to the question: *What is your highest level of
-education?*. The chart indicates that the most frequent reported level
-of education is "secondary school completed," followed by "primary
-school completed" and "no formal schooling". Fewer respondents reported
-having attained "post secondary qualifications," "university completed,"
-or "Post-graduate" education, shows the disparity in advanced
-educational attainment across the population. This distribution shows
-that basic education levels are more prevalent among respondents, which
-may influence their perceptions and responses in the broader survey.
-Including educational attainment is important in our analysis because it
-is an important socioeconomic factor.
-
-```{r}
-#| label: fig-age-group-distribution
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-#| fig.cap: "Age Group Distribution. This bar chart displays the number of respondents in each age group in Nigeria."
-
-# Plot: Age Group Distribution
-cleaned_data %>%
-  count(age_group) %>%
-  ggplot(aes(x = age_group, y = n, fill = age_group)) +
-  geom_bar(stat = "identity") +
-  labs(
-    title = "Age Group Distribution",
-    x = "Age Group",
-    y = "Number of Respondents"
-  ) +
-  theme_minimal() +
-  scale_fill_brewer(palette = "Set3") +
-  guides(fill = "none")
-
-
-
-```
-
-@fig-age-group-distribution illustrates the distribution of survey
-respondents across five distinct age groups: 18-24, 25-34, 35-44, 45-54,
-and 55+. The data reveals that the 25-34 age group is the most
-represented, with over 500 respondents, followed by the 35-44 age group.
-The youngest cohort, aged 18-24, comprises approximately 300
-respondents, while the older age groups (45-54 and 55+) are less
-represented in the dataset, with fewer than 200 respondents each. This
-distribution highlights a concentration of responses from younger
-demographics, particularly those aged 25-34, which may reflect broader
-societal trends such as population age structure or survey reach and
-accessibility.
-
-## Combined variables of interest? 
-
-```{r}
-#| label: fig-variables-of-interest
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-#| fig.cap: "combined variables of interest"
-
-library(patchwork)
-
-# Create individual plots
-urban_plot <- cleaned_data %>%
-  count(URBRUR) %>%
-  ggplot(aes(x = URBRUR, y = n, fill = URBRUR)) +
-  geom_bar(stat = "identity") +
-  theme_minimal() +
-  labs(title = "Urban vs Rural", x = "Location", y = "Count")
-
-corruption_plot <- cleaned_data %>%
-  count(corruption_presidency) %>%
-  ggplot(aes(x = corruption_presidency, y = n, fill = corruption_presidency)) +
-  geom_bar(stat = "identity") +
-  theme_minimal() +
-  labs(title = "Corruption Perception", x = "Perception", y = "Count")
-
-education_plot <- cleaned_data %>%
-  count(education) %>%
-  ggplot(aes(x = n, y = reorder(education, n))) +
-  geom_col(fill = "darkblue") +
-  theme_minimal() +
-  labs(title = "Education Level", x = "Count", y = "Education")
-
-age_plot <- cleaned_data %>%
-  count(age_group) %>%
-  ggplot(aes(x = age_group, y = n, fill = age_group)) +
-  geom_bar(stat = "identity") +
-  theme_minimal() +
-  labs(title = "Age Distribution", x = "Age Group", y = "Count")
-
-# Combine plots
-urban_plot + corruption_plot + education_plot + age_plot +
-  plot_layout(ncol = 2)
-
-```
-
-
-
-```{r}
-#| label: fig-variables-of-interest-heatmap
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-#| fig.cap: "combined variables of interest"
-
-#install.packages("tidyr")
-library(tidyr)
-# Combine data for heatmap
-heatmap_data <- cleaned_data %>%
-  pivot_longer(
-    cols = c(URBRUR, corruption_presidency, education, age_group),
-    names_to = "variable",
-    values_to = "category"
-  ) %>%
-  count(variable, category) %>%
-  mutate(variable = factor(variable, levels = c("URBRUR", "corruption_presidency", "education", "age_group")))
-
-# Create heatmap
-ggplot(heatmap_data, aes(x = category, y = variable, fill = n)) +
-  geom_tile(color = "white") +
-  scale_fill_gradient(low = "lightblue", high = "darkblue") +
-  labs(
-    title = "Heatmap of Variable Distributions",
-    x = "Category",
-    y = "Variable",
-    fill = "Count"
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1)
-  )
-
-
-```
-
-## Corruption Perceptions Vs Variables of Interest 
 ```{r}
 #| label: fig-education-vs-corruption
 #| echo: false
@@ -557,11 +313,29 @@ cleaned_data %>%
 
 ```
 
-This heatmap in @fig-education-vs-corruption shows the relationship between respondents’ education levels and their perceptions of corruption in Nigeria. The x-axis represents corruption perception categories (All Corrupt, High Corruption, No Corruption, and Some Corruption), while the y-axis represents education levels, ranging from No Formal Schooling to Post-graduate. The intensity of the color reflects the number of respondents, with darker shades indicating higher counts.
+This heatmap in @fig-education-vs-corruption shows the relationship
+between respondents’ education levels and their perceptions of
+corruption in Nigeria. The data reflects responses to the question:
+*What is your highest level of education?*.The x-axis represents
+corruption perception categories (All Corrupt, High Corruption, No
+Corruption, and Some Corruption), while the y-axis represents education
+levels, ranging from No Formal Schooling to Post-graduate. The intensity
+of the color reflects the number of respondents, with darker shades
+indicating higher counts.
 
-The heatmap reveals that respondents who completed secondary school or some secondary schooling dominate the High Corruption and Some Corruption categories. Respondents with higher education levels (university and post-graduate) are distributed more evenly across the corruption perception categories, with fewer concentrated in any specific category. Conversely, respondents with no formal schooling or only informal education are sparsely represented across all categories.
-
-This visualization highlights a notable concentration of corruption perceptions among respondents with mid-level education (secondary schooling), while those with higher education tend to have more varied perceptions. These findings suggest a potential link between educational attainment and experiences or attitudes toward corruption, particularly among those with secondary-level education.
+The heatmap reveals that respondents who completed secondary school or
+some secondary schooling dominate the High Corruption and Some
+Corruption categories. Respondents with higher education levels
+(university and post-graduate) are distributed more evenly across the
+corruption perception categories, with fewer concentrated in any
+specific category. Conversely, respondents with no formal schooling or
+only informal education are sparsely represented across all
+categories.There is a notable concentration of corruption perceptions
+among respondents with mid-level education (secondary schooling), while
+those with higher education tend to have more varied perceptions. These
+findings suggest a potential link between educational attainment and
+experiences or attitudes toward corruption, particularly among those
+with secondary-level education.
 
 ```{r}
 #| label: fig-age-versus-corruption
@@ -590,13 +364,27 @@ ggplot(cleaned_data, aes(x = age_group, fill = age_group)) +
   )
 
 ```
-@fig-age-versus-corruption shows the relationship between respondents' age group and their perceptions of corruption in Nigeria. Each panel corresponds to one of four corruption perception levels: * All Corruption, High Corruption, Some Corruption, and No Corruption.*Whitin each panel, the bars represent the count of respondent across five age groups (18-24, 25-34, 35-44, 45-54, and 55+), enabling a clear comparison of how perceptions vary by age. 
 
-The 25–34 and 35–44 age groups have the highest counts in the High Corruption and Some Corruption categories, suggesting that middle-aged respondents are more likely to perceive corruption as significant. In contrast, younger respondents (18–24) and older respondents (55+) report lower levels of corruption perception in these categories.
+@fig-age-versus-corruption shows the relationship between respondents'
+age group which was obtained by asking the respondent *How old are you?* and their perceptions of corruption in Nigeria. Each panel corresponds to one of four corruption perception levels. Within
+each panel, the bars represent the count of respondent across five age
+groups (18-24, 25-34, 35-44, 45-54, and 55+), enabling a clear
+comparison of how perceptions vary by age.
 
-In the All Corrupt category, the 25–34, 35–44, and 55+ age groups dominate, while the 18–24 and 45–54 groups have lower counts. The No Corruption category has low counts across all age groups, indicating that very few respondents, regardless of age, perceive the absence of corruption.
+The 25–34 and 35–44 age groups have the highest counts in the High
+Corruption and Some Corruption categories, suggesting that middle-aged
+respondents are more likely to perceive corruption as significant. In
+contrast, younger respondents (18–24) and older respondents (55+) report
+lower levels of corruption perception in these categories.In the All Corrupt category, the 25–34, 35–44, and 55+ age groups dominate, while the 18–24 and 45–54 groups have lower counts. The No
+Corruption category has low counts across all age groups, indicating
+that very few respondents, regardless of age, perceive the absence of
+corruption.
 
-These results indicate that middle-aged respondents (25–44) are the most likely to report high levels of corruption perception, while younger and older groups report less. The consistently low counts in the No Corruption category reflect a widespread belief that corruption is a persistent issue in Nigeria.
+These results indicate that middle-aged respondents (25–44) are the most
+likely to report high levels of corruption perception, while younger and
+older groups report less. The consistently low counts in the No
+Corruption category reflect a widespread belief that corruption is a
+persistent issue in Nigeria.
 
 ```{r}
 #| label: fig-ruralurban-versus-corruption
@@ -630,17 +418,28 @@ ggplot(corruption_vs_urban, aes(x = urban_rural, y = proportion, fill = corrupti
   )
 
 
-# Convert corruption_presidency to numeric if needed
+# Convert corruption_presidency to numeric 
 cleaned_data$corruption_numeric <- as.numeric(factor(cleaned_data$corruption_presidency))
 
-
-
 ```
-The relationship between respondents' residential location (rural vs. urban) and their perceptions of corruption is shown in @fig-ruralurban-versus-corruption Each bar represents the proportion of respondents within rural and urban groups who hold different corruption perceptions: All Corrupt, High Corruption, Some Corruption, and No Corruption.
 
-The chart reveals that rural and urban respondents share similar patterns of corruption perception. The majority of respondents in both groups fall under the Some Corruption and High Corruption categories, with Some Corruption being slightly more prevalent. The All Corrupt category is the third most common perception in both groups, while the No Corruption category is consistently the least represented.
+The relationship between respondents' residential location (rural vs.
+urban) and their perceptions of corruption is shown in
+@fig-ruralurban-versus-corruption Each bar represents the proportion of
+respondents within rural and urban groups who hold different corruption
+perceptions.
 
-These findings indicate that residential location does not significantly influence corruption perceptions, as rural and urban respondents report similar distribution patterns across all categories. The results suggest that perceptions of corruption are pervasive and relatively consistent across geographic locations.
+The chart reveals that rural and urban respondents share similar
+patterns of corruption perception. The majority of respondents in both
+groups fall under the Some Corruption and High Corruption categories,
+with Some Corruption being slightly more prevalent. The All Corrupt
+category is the third most common perception in both groups, while the
+No Corruption category is consistently the least represented.
+
+Residential location does not significantly influence corruption perceptions, as
+rural and urban respondents report similar distribution patterns across all 
+categories. The results suggest that perceptions of corruption are pervasive and
+relatively consistent across geographic locations.
 
 ```{r}
 #| label: fig-gender-versus-corruption
@@ -677,11 +476,19 @@ ggplot(cleaned_data, aes(x = corruption_presidency, fill = corruption_presidency
 
 
 ```
-@fig-gender-versus-corruption shows the the relationship between respondents' gender (male and female) and their perceptions of corruption. Each panel represents one gender, displaying the count of respondents across four corruption perception categories: All Corrupt, High Corruption, Some Corruption, and No Corruption.
 
-The chart shows that both male and female respondents share similar patterns of corruption perception. The High Corruption and Some Corruption categories have the highest counts for both genders, indicating these are the most commonly held views. The All Corrupt category has fewer respondents, while the No Corruption category consistently has the lowest counts for both genders.
+@fig-gender-versus-corruption shows the the relationship between
+respondents' gender (male and female) and their perceptions of
+corruption. Each panel represents one gender, displaying the count of
+respondents across four corruption perception categories: All Corrupt,
+High Corruption, Some Corruption, and No Corruption.
 
-These results suggest that gender does not significantly influence perceptions of corruption, as male and female respondents exhibit similar distribution patterns across all perception categories. The findings highlight a shared acknowledgment of corruption as a major issue across genders in Nigeria.
+The chart shows that both male and female respondents share similar
+patterns of corruption perception. The High Corruption and Some
+Corruption categories have the highest counts for both genders,
+indicating these are the most commonly held views. The All Corrupt
+category has fewer respondents, while the No Corruption category
+consistently has the lowest counts for both genders.
 
 # Model {#sec-model}
 
@@ -796,7 +603,7 @@ without assuming equal distances between categories. These decisions
 ensure the model is both consistent with the data and well-suited to
 addressing the research question.
 
-# Results
+# Results {#sec-results}
 
 ## Corruption Perceptions Model
 
@@ -829,7 +636,8 @@ knitr::kable(
 ```
 
 The analysis revealed distinct trends in Corruption perceptions in
-different demographics. Our results are summarized in @tbl-modelresults.This presents the estimated coefficients and standard
+different demographics. Our results are summarized in @tbl-modelresults. 
+This presents the estimated coefficients and standard
 errors for each predictor included in the model. The dependent variable
 is the perception of corruption in the presidency, categorized into
 ordered levels. The table includes predictors such as education level,
@@ -908,26 +716,147 @@ groups show minimal variation. These findings are shown in the
 regression estimates and predicted probabilities, as visualized in
 @fig-predicted-probabilities and summarized in @tbl-modelresults.
 
+# Discussion {#sec-discussion}
 
-# Discussion
+This paper looks into the demographic disparities of corruption
+perception in the Nigerian presidency, using survey data to examine
+variables like education, gender, age and urban versus rural residence.
+By looking at these factors, the study aims to inform targeted
+anti-corruption camapigns and policy making. The Bayesian modeling
+approach helps us understand the relationship between corruption
+perceptions and these demographic variables.
 
-This paper looks into public perceptions of corruption within the Nigerian Presidency, using data from Afrobarometer Round 9 survey. A bayesian ordinal logistic regression model was used to evaluate the influence of demographic variables like education, gender, urban/rural residence, and age group on corruption perceptions. We found that higher education levels, urban residency, and gender play significant roles in shaping perceptions, with educated and urban individuals more likely to perceive high levels of corruption in Nigeria. 
+## Tareting Education Levels in Anti-Corruption Campaigns {#sec-first-point}
 
-## The Role of Education in Shaping Corruption Perceptions {#sec-first-point}
+The relationship between education and corruption perceptions shows that
+respondents with secondary school education are the most likely to
+perceive high levels of corruption in the presidency. This supports
+broader research showing that moderate levels of education are linked to
+increased political awareness and accountability demands, as individuals
+in this group are better equipped to identify systemic corruption but
+may lack the structural access to address it effectively
+[@transparency2019]. Individuals with higher education, such as
+university graduates, report more moderate corruption perceptions, this
+might largely beceause of their exposure to diverse viewpoints and
+greater access to institutional frameworks that allow for political
+skepticism. These suggest that anti-corruption campaigns targeting this
+moderately educated demographic should focus on actionable reforms and
+accountability mechanisms to harness their heightened awareness
+productively [@u4nigeria2023].
 
+## Urban-Rural Dynamics in Perception
 
-## Urban-Rural Disparities in Perception
+Urban respondents are somewhat more likely than their rural counterparts
+to perceive high corruption in the presidency. This is consistent with
+findings that urban populations have greater access to investigative
+reporting and public discourse on corruption, which can amplify
+awareness and perceptions [@u4nigeria2023]. On the other hand, rural
+respondents, who may rely on localized patronage networks for essential
+services, often exhibit more neutral or unclear perceptions of
+corruption, influenced by limited media access and dependency on these
+informal systems. Campaigns should focus on leveraging urban platforms
+like social media, community-based programs, and public dialogues to
+engage critical urban audiences, while also expanding rural outreach
+through local radio, grassroots organizations, and educational
+interventions tailored to these settings.
 
+## The Role of Age, Youth & Gender Engagement
 
+Younger respondents, particularly those aged 25–34, consistently report
+higher perceptions of corruption compared to older age groups. This
+aligns with existing research that highlights younger demographics as
+more vocal in their demands for systemic change in a country like
+Nigeria, where over 60% of the population is under 25 [@UNFPA2023],
+targeted anti-corruption initiatives that harness youth energy are
+important. These efforts should include digital campaigns on platforms
+frequently used by younger audiences, interactive town hall discussions,
+and youth-led advocacy initiatives that focus on transparency and
+accountability. Importantly, such campaigns need to have clear pathways
+for action, making it easy for youth to channel their frustration into
+productive engagement with governance structures.
 
-## Gender Dynamics in Corruption Perception 
+While gender differences in corruption perceptions were less pronounced
+in our paper, prior research shows that women often experience
+corruption indirectly, particularly in accessing healthcare or education
+systems [@GenderCorruption2021]. This shows the need for anti-corruption
+campaigns that address systemic barriers disproportionately impacting
+women, emphasizing institutional reforms in sectors that are important
+to gender equity. Moreover, trust in institutions plays an important
+role in shaping perceptions. Corruption scandals and perceived impunity
+have a way of eroding trust, particularly in urban areas where political
+engagement is higher[@afrobarometer2007]. Restoring institutional
+credibility through transparency and consistent enforcement of
+anti-corruption measures can increase the effectiveness of campaigns
+targeting both genders.
 
-## Policy Implications 
+## Policy Implications
 
+This paper is focused on looking at trends in the corruption perception
+between different demographics and seeing how these differences can be
+leveraged to maximize anti corruption campaigns and policy in
+Nigeria.From this paper, we find different actionable strategies for
+improving the effectiveness of anti-corruption campaigns in Nigeria.
+First, targeting rural and urban populations differently might be
+effective. Urban residents, who have greater access to investigative
+media and public debates, are more likely to perceive high corruption.
+Campaigns in urban areas should therefore focus on digital platforms
+like social media and mobile apps, as well as partnerships with
+investigative journalists and public accountability platforms to engage
+this group effectively. In rural areas, where reliance on patronage
+systems and limited media access shape perceptions, grassroots
+communication strategies like community radio, local town halls, and
+collaborations with trusted community leaders are better suited to
+disseminate anti-corruption messaging.
+
+Education also emerges as a key determinant of corruption perceptions.
+Secondary school graduates exhibit the highest levels of awareness, this
+suggests that civic education campaigns should focus on this demographic
+to harness their increased engagement. Integrating anti-corruption
+education into school curricula could early awareness and long-term
+attitudinal changes.Youth engagement is very important, given that
+younger age groups, particularly those aged 25–34, report the highest
+levels of dissatisfaction with corruption. Social media campaigns
+tailored to platforms popular with youth, together with interactive town
+hall discussions and youth-led grassroots initiatives, could channel
+this demographic's energy into organized anti-corruption efforts.
+
+Lastly, rebuilding public trust in institutions should be a priority.
+Transparent hiring practices, visible enforcement of anti-corruption
+laws, and strengthened whistleblower protections are important steps to
+showing institutional accountability. Localized outreach through
+community leaders can also help bridge the trust gap, particularly in
+rural settings. Policymakers should put these findings into a
+data-driven framework so they can adapt strategies based on demographic
+trends and feedback.
 
 ## Weaknesses and next steps
 
-Weaknesses and next steps should also be included.
+While this paper tells us a lot about the demographic distributions of
+corruption perception about the presidency in Nigeria, there are a few
+limitations that have to be considered. The survey data relies on
+self-reported perception, which can be influenced by social desirability
+bias which refers to the situation where respondents' endorse more
+favorable responses in order to enhance their own
+self-presentation[@bias2022].For example, high-profile corruption
+scandals or electoral promises happening close to survey periods may
+distort responses. The data does not account for regional differences
+within these urban rural classifications, which could change the
+understanding of corruption perceptions further.The last limitation is
+with the bayesian model, because while the Bayesian model accounts for
+uncertainty, it does not address potential unobserved variables, like
+political affiliations or socioeconomic status, which may affect the
+relationships we say.
+
+Future research should look more into longitudinal trends in corruption
+perceptions to look at how demographic factors evolve over time. This
+could be achieve through tracking respondents across electoral cycles or
+policy interventions to observe shifts in attitudes. Additionally,
+looking more into regional subcategories could show us some localized
+patterns, particularly in states that have different governing
+structures and resource allocation systems. Expanding the dataset to
+include qualitative information from interviews and focus groups would
+also give more information about how demographic characteristics relate
+to peoples' lived corruption experiences.
 
 \newpage
 
@@ -935,7 +864,57 @@ Weaknesses and next steps should also be included.
 
 # Appendix {.unnumbered}
 
+# Surveys, Sampling, and Observational Data {#sec-survey-appendix}
+
+## Survey Methodolgy and Design 
+
+## Sampling Techniques
+
+## Observational Data Challenges 
+
+## Proposed Improvements 
+
 # Additional data details
+
+```{r}
+#| label: fig-variables-of-interest-heatmap
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| fig.cap: "combined variables of interest"
+
+#install.packages("tidyr")
+library(tidyr)
+# Combine data for heatmap
+heatmap_data <- cleaned_data %>%
+  pivot_longer(
+    cols = c(URBRUR, corruption_presidency, education, age_group),
+    names_to = "variable",
+    values_to = "category"
+  ) %>%
+  count(variable, category) %>%
+  mutate(variable = factor(variable, levels = c("URBRUR", "corruption_presidency", "education", "age_group")))
+
+# Create heatmap
+ggplot(heatmap_data, aes(x = category, y = variable, fill = n)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "lightblue", high = "darkblue") +
+  labs(
+    title = "Heatmap of Variable Distributions",
+    x = "Category",
+    y = "Variable",
+    fill = "Count"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+
+```
+
+![Combined plot](combined_plot.png){width="120%"}
 
 # Model details {#sec-model-details}
 
@@ -959,6 +938,11 @@ pp_check(bayesian_model) +
     title = "Posterior Predictive Check",
     x = "Observed Data",
     y = "Density"
+  ) + 
+  scale_x_continuous(
+    name = "Observed Data",     
+    breaks = seq(0, 1, by = 0.1), 
+    limits = c(1.1, 2.8)             
   )
 
 ```
@@ -1036,25 +1020,6 @@ posterior_vs_prior(bayesian_model, pars = demographic_params, group_by_parameter
 ```
 
 ## Diagnostics
-
-```{r}
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-#| label: fig-diagnostic-ppcheck
-#| fig-cap: "Posterior Predictive Check for the Bayesian ordinal logistic regression model."
-
-# Posterior Predictive Check
-pp_check(bayesian_model) +
-  theme_classic() +
-  labs(
-    title = "Posterior Predictive Check",
-    x = "Observed Data",
-    y = "Density"
-  )
-
-```
 
 ```{r}
 #| eval: true
