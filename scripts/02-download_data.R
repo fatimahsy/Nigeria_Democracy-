@@ -9,9 +9,7 @@
 
 
 #### Workspace setup ####
-install.packages("arrow")
-install.packages("tidyverse")
-install.packages("haven")
+
 library(arrow)
 library(tidyverse)
 library(haven)

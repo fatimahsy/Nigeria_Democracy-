@@ -8,10 +8,7 @@
 # Any other information needed? 
 
 #### Workspace setup ####
-install.packages("haven")    
-install.packages("dplyr")    
-install.packages("ggplot2")  
-install.packages("arrow")
+
 library(haven)
 library(dplyr)
 library(ggplot2)

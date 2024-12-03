@@ -1,6 +1,6 @@
 ---
-title: "Perceptions of Corruption in Nigeria"
-subtitle: "Rural Nigerians and Less Educated  Groups Report Higher Corruption"
+title: "Shaping Anti-Corruption Campaigns in Nigeria"
+subtitle: "Youth Populations, Urban Areas and Moderately Educated Citizens Are Critical for Anti-Corruption Campaigns "
 author: 
   - Fatimah Yunusa
 thanks: "Code and data are available at:https://github.com/fatimahsy/Nigeria_Democracy-"

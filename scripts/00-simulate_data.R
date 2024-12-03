@@ -41,7 +41,5 @@ simulated_afrobarometer <-  simulated_afrobarometer %>%
   )
 
 
-#### Simulate data ####
-
 #### Save data ####
 write_csv(simulated_afrobarometer, "data/00-simulated_data/simulated_afrobarometer.csv")

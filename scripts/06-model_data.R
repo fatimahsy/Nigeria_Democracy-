@@ -11,21 +11,7 @@
 #### Workspace setup ####
 
 
-### Model data ####
-
-#### Save model ####
-#saveRDS(
-#  first_model,
-#  file = "models/first_model.rds"
-#)
-
-
-# Load necessary libraries
-install.packages("MASS")
-install.packages("dplyr")
-install.packages("modelsummary")
-install.packges("rstanarm")
-linrary(rstanarm)
+library(rstanarm)
 library(MASS)
 library(dplyr)
 library(modelsummary)

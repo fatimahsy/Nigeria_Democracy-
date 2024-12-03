@@ -10,7 +10,7 @@ The paper highlights the importance of education as a significant factor, reveal
 
 As a Nigerian, i have witnessed firsthand the profound impact of corruption on governance, development, and public trust. According to Transparency International's 2023 Corruption Perception Index, Nigeria ranks 145 out of 180 countries, with a score of 25/100, indicating pervasive corruption in the public sector (Transparency International,2023).
 
-This project leverages data from Afrobarometer's Nigeria Round 9 survey to analyze how demographic factors like education, gender, and geographic location influence perceptions of corruption in the presidency. By examining these patterns, i aim to provide data-driven insights that can inform efforts to rebuild public trust and promote accountability in governance.
+This project uses data from Afrobarometer's Nigeria Round 9 survey to analyze how demographic factors like education, gender, and geographic location influence perceptions of corruption in the presidency. By examining these patterns, i aim to provide data-driven insights that can inform efforts to rebuild public trust and promote accountability in governance.
 
 ## 🗂File Structure
 
@@ -20,6 +20,7 @@ The repo is structured as:
 -   `data/02-analysis_data` contains the cleaned dataset that was constructed.
 -   `model` contains fitted models.
 -   `other` contains relevant literature, details about LLM chat interactions, and sketches.
+-   `other/datasheet` contains the datasheet for [Afrobarometer](https://www.afrobarometer.org/survey-resource/nigeria-round-9-data-2023/).
 -   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper.
 -   `scripts` contains the R scripts used to simulate, download and clean data.
 
