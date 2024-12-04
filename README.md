@@ -1,8 +1,8 @@
-# Corruption Perceptions in Nigeria:A Bayesian Approach
+# Corruption Perceptions in Nigeria: Data Explorations, Methodology, and Findings from Afrobarometer Surveys
 
 ## 📌Overview
 
-This repository contains all files and code supporting the analysis for the paper. The paper looks into the factors influencing perceptions of corruption in the Nigerian presidency using data from Afrobarometer's 2023 survey. A Bayesian ordinal logistic regression model was employed to analyze the relationship between demographic predictors—such as education, gender, age, and urban/rural residency—and perceptions of corruption.
+This repository contains all files and code supporting the analysis for the paper. The paper looks into the factors influencing perceptions of corruption in the Nigerian presidency using data from Afrobarometer's Round 9 Nigeria survey. A Bayesian ordinal logistic regression model was employed to analyze the relationship between demographic predictors—such as education, gender, age, and urban/rural residency—and perceptions of corruption.
 
 The paper highlights the importance of education as a significant factor, revealing its strong association with lower perceptions of corruption. Other variables, including gender and urban/rural residency, were also examined for their contributions to corruption perceptions. This repository aims to provide transparency and reproducibility for all steps of the analysis, from data cleaning to modeling and visualization.
 
@@ -23,6 +23,8 @@ The repo is structured as:
 -   `other/datasheet` contains the datasheet for [Afrobarometer](https://www.afrobarometer.org/survey-resource/nigeria-round-9-data-2023/).
 -   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper.
 -   `scripts` contains the R scripts used to simulate, download and clean data.
+-   `Data_Diary` is a Data Diary, documenting important steps, decisions, and reflections made during the analysis, offering a transparent view into the data cleaning, modeling, and ethical considerations that shaped my paper. 
+
 
 ## 🤖Statement on LLM usage
 

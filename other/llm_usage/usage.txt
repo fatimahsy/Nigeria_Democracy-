@@ -1,6 +1,6 @@
 LLM: ChatGPT-4.
 
-HI, i have written the foolwing code to help me simulate data but something seems to be wrong, help me troubleshoot pelease.              
+Hi, i have written the following code to help me simulate data but something seems to be wrong, help me troubleshoot pelease.              
 # Load necessary libraries
 library(dplyr)
 library(readr)
