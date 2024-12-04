@@ -1,4 +1,4 @@
-# Corruption Perceptions in Nigeria: Data Explorations, Methodology, and Findings from Afrobarometer Surveys
+# Corruption Perceptions in Nigeria: Data Explorations, Methodology, and Findings from Afrobarometer Survey
 
 ## 📌Overview
 
@@ -33,9 +33,7 @@ Aspects of the code and general debugging were written with the help of ChatGPT 
 
 ## 🕊️ Ethical Considerations
 
-
-
-This project adheres to ethical research principles, ensuring data privacy and integrity throughout the analysis. No personally identifiable information (PII) was used or inferred, and all data processing followed Afrobarometer's ethical guidelines for transparency and accountability. By examining corruption perceptions through a demographic lens, this work underscores the importance of ethical decision-making in both research practices and policymaking efforts.
+This project adheres to ethical research principles, ensuring data privacy and integrity throughout the analysis. No personally identifiable information (PII) was used or inferred, and all data processing followed Afrobarometer's ethical guidelines for transparency and accountability. By examining corruption perceptions through a demographic lens, this work underscores the importance of ethical decision-making in both research practices and policymaking efforts.A datasheet for the dataset was also created and could be found in `other/datasheet`. 
 
 
 
