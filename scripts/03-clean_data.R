@@ -14,7 +14,6 @@ library(dplyr)
 library(ggplot2)
 library(arrow)
 
-nigeriasurvey <- read_sav("~/Downloads/nigeriasurvey.sav")
 
 # Save the raw data as a Parquet file 
 write_parquet(nigeriasurvey, "data/01-raw_data/nigeriasurvey.parquet")
