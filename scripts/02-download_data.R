@@ -15,8 +15,6 @@ library(tidyverse)
 library(haven)
 
 
-# Import the .sav file
-nigeriasurvey <- read_sav("~/Downloads/nigeriasurvey.sav")
 
 # View the imported data (optional)
 View(nigeriasurvey)
