@@ -30,6 +30,15 @@ The repo is structured as:
 
 Aspects of the code and general debugging were written with the help of ChatGPT and the entire chat history is available in `inputs/llms/usage.txt`.
 
+
+## 🕊️ Ethical Considerations
+
+
+
+This project adheres to ethical research principles, ensuring data privacy and integrity throughout the analysis. No personally identifiable information (PII) was used or inferred, and all data processing followed Afrobarometer's ethical guidelines for transparency and accountability. By examining corruption perceptions through a demographic lens, this work underscores the importance of ethical decision-making in both research practices and policymaking efforts.
+
+
+
 ## 🌟 Final Note
 
 Thank you for exploring this project! Corruption is a complex challenge, but understanding how different demographics perceive it is a step toward meaningful change. If this repository sparks your curiosity, inspires your work, or raises questions, I’d love to hear from you. 

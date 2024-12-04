@@ -950,16 +950,10 @@ Amina’s experiences highlight the role of demographic factors in shaping perce
 
 Reflecting on Amina’s story reminds us of the ethical responsibility to consider the individuals behind the data. Every statistic represents a life, a struggle, and a hope for change. By thinking of people like Amina, policymakers and campaigners can design anti-corruption initiatives that genuinely resonate with those they aim to serve. Ethical actions begin with understanding these lived realities, ensuring that interventions are meaningful and respectful of the diverse experiences within the population.
 
-
-
 # Additional data details
 
 This figure provides an overview of demographic variables and corruption perceptions from the Afrobarometer Nigeria Round 9 survey. Rural residents constitute a larger share of the sample, aligning with Nigeria's predominantly rural demographic landscape. Corruption perception data shows that "High Corruption" and "Some Corruption" dominate public opinion. The education level distribution highlights the prevalence of basic education, with the majority of respondents having completed secondary school. Finally, the age distribution indicates that the 25–34 age group is the most represented cohort.
-
 ![Demographic Distributions of the Afrobarometer Data](combined_plot.png){#fig-demo width="110%"}
-
-
-
 
 
 # Model details {#sec-model-details}
@@ -1062,6 +1056,12 @@ posterior_vs_prior(bayesian_model, pars = demographic_params, group_by_parameter
   )
 
 ```
+
+
+
+
+
+
 
 
 ## Diagnostics
