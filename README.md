@@ -27,3 +27,9 @@ The repo is structured as:
 ## 🤖Statement on LLM usage
 
 Aspects of the code and general debugging were written with the help of ChatGPT and the entire chat history is available in `inputs/llms/usage.txt`.
+
+## 🌟 Final Note
+
+Thank you for exploring this project! Corruption is a complex challenge, but understanding how different demographics perceive it is a step toward meaningful change. If this repository sparks your curiosity, inspires your work, or raises questions, I’d love to hear from you. 
+
+✨ "Small data, big impact—every insight counts." ✨

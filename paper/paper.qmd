@@ -6,7 +6,7 @@ author:
 thanks: "Code and data are available at:https://github.com/fatimahsy/Nigeria_Democracy-"
 date: today
 date-format: long
-abstract: "Peceptions of corruption in the Nigerian presidency vary significantly across demogrpahic groups. Using Afrobarometer survey data and Bayesisan ordinal logistic regression, this study looks at how education, gender, age, and urban versus rural residence influence these perceptions. The results show that urban residents and yourger individuals are more likely to perceive high corruption, while rura populations and those with higher education show views that are moderate. These results show the need for targeted anti-corruption campaigns to adress demographic differences and imporve governance accountability in Nigeria"
+abstract: "Peceptions of corruption in the Nigerian presidency vary significantly across demogrpahic groups. Using Afrobarometer survey data and Bayesisan ordinal logistic regression, this study looks at how education, gender, age, and urban versus rural residence influence these perceptions. The results show that urban residents and younger individuals are more likely to perceive high corruption, while rural populations and those with higher education show views that are moderate. These results show the need for targeted anti-corruption campaigns to adress demographic differences and imporve governance and accountability in Nigeria"
 format: pdf
 toc: true
 number-sections: true
@@ -41,24 +41,24 @@ bayesian_model <- readRDS(file = here::here ("models/bayesian_model.rds"))
 
 # Introduction
 
-Corruption is a very big challenge to governance and development in Nigeria as a result of its ability to undermine public trust and economic growth. As the United Nations Office on Drugs and Crime (UNODC) stated, "corruption affects the lives of ordinary Nigerian, impeding development and eroding public trust in institutions [@corruptionsurvey2024]. This paper looks into the role of demographic factors-education,gender,age, and urban versus rural residence-in shaping perceptions of corruption in the Nigerian presidency.
+Corruption is a big challenge to governance and development in Nigeria as a result of its ability to undermine public trust and economic growth. As the United Nations Office on Drugs and Crime (UNODC) stated, "corruption affects the lives of ordinary Nigerian, impeding development and eroding public trust in institutions [@corruptionsurvey2024]. This paper looks into the role of demographic factors-education,gender,age, and urban versus rural residence-in shaping perceptions of corruption in the Nigerian presidency.
 
-Primarily, this paper is aimed at understanding how different demographic groups perceive corruption in the Nigerian presidency and to identify ways thiis can help improve anti-corruption campaigns, While existing studies have largely been focused on the institutional dynamics, there seems to be a lack of demographic-specific analysis within the Nigerian context. This paper addresses this gap by making these demographics the focus. It does this by using nationally representative data from Afrobarometer [@afrobarometer2023], a leading survey initiative capturing public attitudes on governance, democracy, and corruption across Africa. A Bayesian ordinal logistic regression was used to find patterns in how education, gender, age, and geographic location influence perceptions of corruption. 
-
-
-Our paper shows that there are alot of disparities in corruption perceptions across demographic groups. Younger respondents and urban residents have higher perceptions of corruption, likely because of higer exposure to investigative media and political discourse. In contrast, rural populations-often reliant on patronage systems- tend to report more neutral views. Education also plays an important role since we find that secondary school graduates have the highest corruption perceptions.
-
-Understanding these demographic differences is important for designing effective anti-corruption campaigns. Making sure outreach efforts are tailored to the unique experiences and perceptions of different demographic groups can increase their effectiveness and increase public trust. For example, youth-focused campaigns that use social media platforms and urban outreach using investigative journalism can engage the people. At the same time, localized, culturally appropriate campaigns in rural areas can address the different needs of these populations. A the UNODC emphasizes, 'targeted and effective anti-corruption policies will improve likes of Nigerian citizens" [@afrobarometer2023]. 
+Primarily, this paper is aimed at understanding how different demographic groups perceive corruption in the Nigerian presidency and to identify ways this can help improve anti-corruption campaigns, While existing studies have largely been focused on the institutional dynamics, there seems to be a lack of demographic-specific analysis within the Nigerian context. This paper addresses this by making these demographics the focus. It does this by using nationally representative data from Afrobarometer [@afrobarometer2023], a leading survey initiative capturing public attitudes on governance, democracy, and corruption across Africa. A Bayesian ordinal logistic regression was used to find patterns in how education, gender, age, and geographic location influence perceptions of corruption. 
 
 
-The remainder of this paper is structured as follows; @sec-data detailed the data used for this paper, @sec-model introduces the Bayesian ordinal logistic regression model used to study the relationship between our variables of interest. @sec-results presents the findings from the model, detailing how different demographic factors like education and age affect corruption perception in Nigeria. @sec-discussion examines these results, discussing their implications for anti-corruption policies, weaknesses and next steps. @sec-survey-appendix explores the details of the Afrobarometer survey. @sec-model-details shows plots for Posterior predictive checks and Diagnostics as well as their analysis. @sec-survey-appendix details the survey methodology used in the Afrobaromenter data and @sec-ethics addresses very important ethical principles and the ethical challenges of surveying sensitive topics like corruption. 
+Our paper shows that there are a lot of disparities in corruption perceptions across demographic groups. Younger respondents and urban residents have higher perceptions of corruption, likely because of higher exposure to investigative media and political discourse. In contrast, rural populations-often reliant on patronage systems- tend to report more neutral views. Education also plays an important role since we find that secondary school graduates have the highest corruption perceptions.
+
+Understanding these demographic differences is important for designing effective anti-corruption campaigns. Making sure outreach efforts are tailored to the unique experiences and perceptions of different demographic groups can increase their effectiveness and increase public trust. For example, youth-focused campaigns that use social media platforms and urban outreach using investigative journalism can engage the people. At the same time, localized, culturally appropriate campaigns in rural areas can address the different needs of these populations. As the UNODC emphasizes, "targeted and effective anti-corruption policies will improve lives of Nigerian citizens" [@afrobarometer2023]. 
+
+
+The remainder of this paper is structured as follows; @sec-data details the data used for this paper, @sec-model introduces the Bayesian ordinal logistic regression model used to study the relationship between our variables of interest. @sec-results presents the findings from the model, detailing how different demographic factors like education and age affect corruption perception in Nigeria. @sec-discussion examines these results, discussing their implications for anti-corruption policies, weaknesses and next steps. @sec-survey-appendix explores the details of the Afrobarometer survey. @sec-model-details shows plots for Posterior predictive checks and Diagnostics as well as their analysis. @sec-survey-appendix details the survey methodology used in the Afrobarometer data and @sec-ethics addresses very important ethical principles and the ethical challenges of surveying sensitive topics like corruption.@sec-Data-Driven-Narrative-appendix introduces a narrative example, 'Amina's Story,' to humanize the data by showing how demographic factors like age, education, and urban residency shape individual perceptions of corruption, while emphasizing the ethical importance of considering the lived experiences behind the data.
 
 # Data {#sec-data}
 
 ## Measurement
 
-For this analysis, i use the Afrobarometer Round 9, Nigeria, 2023
-survey. Afrobarometer conducts surveys that are nationally
+For this analysis, i use the Afrobarometer Round 9, Nigeria survey. 
+Afrobarometer conducts surveys that are nationally
 representative across African nations to capture public perceptions on
 topics like governance, democracy, and economic issues. The Nigerian
 Round 9 survey dataset contains responses from 1,556 people and shows
@@ -103,7 +103,7 @@ data, could provide economic indicators but do not have the granularity of
 Afrobarometer’s public opinion data.
 
 The data for this study was downloaded, cleaned, analyzed, modeled, and
-visualized using R [@citeR], a statistical programming language.[@afrobarometer2023] served as the primary data source, providing importantsurvey data for analysis.***Telling Stories with Data*** [@tellingstories] was referenced for its code and methodologies. The
+visualized using R [@citeR], a statistical programming language.[@afrobarometer2023] served as the primary data source, providing importantsurvey data for analysis.***Telling Stories with Data*** [@tellingstories] was referenced for its methodologies. The
 following packages were used:
 
 -   **`modelsummary`** [@modelsummary]: Used to create well-formatted
@@ -133,8 +133,6 @@ following packages were used:
 -   **`broom.mixed`** [@broommixed]: Streamlined the extraction and
     tidying of results from mixed models for easy analysis and
     visualization.
--   ***Telling Stories with Data*** [@tellingstories]: This book was
-    referenced for its code and methodologies.
 
 ## Cleaned Data Overview
 
@@ -155,7 +153,7 @@ table_preview <- cleaned_data %>%
   select(-c(1:6)) %>%
   head(6)
 
-# Generate a well-formatted table using kableExtra
+# Generate a table using kableExtra
 kable(
   table_preview, 
   caption = "Preview of the Cleaned Dataset"
@@ -168,16 +166,16 @@ dataset, showing the important variables used in the analysis. The
 variables were constructed from specific survey questions in the
 Afrobarometer Round 9 Nigeria Survey [@afrobarometer2023], which
 captures several socioeconomic sentiments within the country.The column
-corruption_presidency captures perceptions of corruption within the
-office of the presidency, derived from responses to the question, “How
+`corruption_presidency` captures perceptions of corruption within the
+office of the presidency, derived from responses to the question, *“How
 many of the following people do you think are involved in corruption, or
 haven’t you heard enough about them to say: the president and officials
-in his office?” The variable education reflects respondents' highest
-level of education completed, gathered from the question, “What is the
-highest level of education you have completed?” The gender variable
+in his office?”* The variable education reflects respondents' highest
+level of education completed, gathered from the question, *“What is the
+highest level of education you have completed?”* The gender variable
 indicates the respondent's gender, collected through direct demographic
 inquiry. The column age_group categorizes respondents into age brackets
-based on the question, “How old are you?” The urban_rural variable
+based on the question,* “How old are you?”* The urban_rural variable
 distinguishes between urban and rural respondents, as recorded by
 interviewers based on the primary sampling unit (PSU) during data
 collection [@survey_manual_2022]. Lastly, region specifies the
@@ -192,29 +190,27 @@ governance-related variables included for analysis.
 #| eval: true
 #| warning: false
 #| message: false
-#| tbl-cap: "Detailed Summary Statistics of the Cleaned Dataset"
+#| tbl-cap: "Detailed Summary Statistics of the Cleaned Afrobarometer Dataset"
 
 library(dplyr)
 library(knitr)
 library(kableExtra)
 
 
-# Ensure the age_group column is a character for correct mapping
+# make sure the age_group column is a character for correct mapping
 cleaned_data <- cleaned_data %>%
   mutate(age_group = as.character(age_group))
 
-# Function to calculate the mode (most frequent category)
+# Function to calculate the mode 
 calculate_mode <- function(x) {
   x <- na.omit(x)
   unique_x <- unique(x)
   unique_x[which.max(tabulate(match(x, unique_x)))]
 }
 
-
-# Adjust line breaks for proper rendering
 line_break <- ifelse(knitr::is_html_output(), "<br>", "\n")
 
-# Prepare the data for the transposed table
+# data for the transposed table
 transposed_summary <- tibble(
   Statistic = c(
     "Most Frequent Age Group", 
@@ -242,15 +238,15 @@ transposed_summary <- tibble(
   )
 )
 
-# Generate a formatted table
+# formatted table
 kable(
   transposed_summary, 
   col.names = c("Statistic", "Value"),
   caption = "Detailed Summary Statistics of the Cleaned Dataset (Transposed)",
-  escape = FALSE # Disables escaping for proper HTML/PDF formatting
+  escape = FALSE 
 ) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) %>%
-  column_spec(2, width = "20em") # Adjust width for better multiline display
+  column_spec(2, width = "20em") 
 
 ```
 
@@ -280,7 +276,7 @@ categorical variables.
 #| eval: true
 #| warning: false
 #| message: false
-#| fig.cap: "Relationship between Education Levels and corruption percetpions in Nigeria  in Nigeria"
+#| fig.cap: "Relationship between Education Levels and corruption percetpions in Nigeria"
 
 
 cleaned_data %>%
@@ -397,7 +393,7 @@ corruption_vs_urban <- cleaned_data %>%
 ggplot(corruption_vs_urban, aes(x = urban_rural, y = proportion, fill = corruption_presidency)) +
   geom_bar(stat = "identity", position = "fill") +
   labs(
-    title = "Relationship between Rural vs. Urban Respondents and Corruption Perceptions",
+    title = " Rural vs. Urban Respondents & Corruption Perceptions",
     x = "Respondent Location",
     y = "Proportion of Respondents",
     fill = "Corruption Perception"
@@ -419,14 +415,12 @@ The relationship between respondents' residential location (rural vs.
 urban) and their perceptions of corruption is shown in
 @fig-ruralurban-versus-corruption Each bar represents the proportion of
 respondents within rural and urban groups who hold different corruption
-perceptions.
-
-The chart shows that rural and urban respondents share similar
+perceptions.The chart shows that rural and urban respondents share similar
 patterns of corruption perception. The majority of respondents in both
-groups fall under the Some Corruption and High Corruption categories,
-with Some Corruption being slightly more prevalent. The All Corrupt
+groups fall under the "Some Corruption" and "High Corruption" categories,
+with "Some Corruption" being slightly more prevalent. The "All Corrupt"
 category is the third most common perception in both groups, while the
-No Corruption category is consistently the least represented.
+"No Corruption" category is consistently the least represented.
 
 Residential location does not significantly influence corruption perceptions, as
 rural and urban respondents report similar distribution patterns across all 
@@ -469,7 +463,7 @@ ggplot(cleaned_data, aes(x = corruption_presidency, fill = corruption_presidency
 
 ```
 
-@fig-gender-versus-corruption shows the the relationship between
+@fig-gender-versus-corruption shows the relationship between
 respondents' gender (male and female) and their perceptions of
 corruption. Each panel represents one gender, displaying the count of
 respondents across four corruption perception categories: All Corrupt,
@@ -542,12 +536,11 @@ in determining the posterior distributions.
 
 The threshold parameters ($\alpha_j$) separate the ordered categories of
 the outcome variable, while the Dirichlet prior for $\pi_{ij}$ assumes
-no strong prior preference for any specific corruption category.
-
-The use of these priors provides flexibility for the model while
-preventing overfitting. The posterior distributions for the coefficients
-and thresholds, along with diagnostic checks for model convergence and
-predictive accuracy, can be found in the Appendix.
+no strong prior preference for any specific corruption category.The use of these
+priors provides flexibility for the model while preventing overfitting. The 
+posterior distributions for the coefficients and thresholds, along with 
+diagnostic checks for model convergence and predictive accuracy, can be found in
+the Appendix.
 
 ### Model Assumptions
 
@@ -611,22 +604,21 @@ addressing the research question.
 library(broom.mixed)
 library(kableExtra)
 
-# Extract summary
-model_summary <- broom.mixed::tidy(bayesian_model)
+detailed_model_summary <- broom.mixed::tidy(bayesian_model, conf.int = TRUE, effects = "fixed") %>%
+  select(term, estimate, std.error, conf.low, conf.high)
 
-# Render as a table
+# Render as a clean table
 knitr::kable(
-  model_summary,
-  caption = "Summary of the Bayesian Model",
-  digits = 2
+  detailed_model_summary,
+  caption = "Detailed Summary of the Bayesian Model with Credible Intervals",
+  digits = 3,
+  col.names = c("Term", "Estimate", "Std. Error", "2.5% CI", "97.5% CI")
 ) %>%
-  kableExtra::kable_styling()
-
-
-
+  kableExtra::kable_styling(full_width = FALSE) %>%
+  kableExtra::add_header_above(c(" " = 1, "Fixed Effects" = 4))
 ```
 
-The analysis revealed distinct trends in Corruption perceptions in
+The analysis revealed trends in corruption perceptions in
 different demographics. Our results are summarized in @tbl-modelresults. 
 This presents the estimated coefficients and standard
 errors for each predictor included in the model. The dependent variable
@@ -639,12 +631,12 @@ corruption in the presidency at a specific level relative to lower
 levels, holding other variables constant.
 
 Higher education levels(e.g., university or post-graduate
-qualifications) arre associated with positive effects on corruption
+qualifications) are associated with positive effects on corruption
 perceptions, indicating a greater likelihood of perceived higher levels
-of corruption. Begin female shows a small positive association with
+of corruption. Being female shows a small positive association with
 higher corruption perceptions. Residing in rural areas is negatively
 associated with corruption perceptions, suggesting lower perceptions of
-corruption compared to urban counterparts. Agegroups show minimal
+corruption compared to urban counterparts. Age groups show minimal
 variation in their association with corruption perceptions, with no
 significant deviations observed among different age brackets.
 
@@ -658,7 +650,7 @@ significant deviations observed among different age brackets.
 
 library(ggplot2)
 
-# Simulating or using your posterior data
+# Loading in posterior data
 predicted_data <- data.frame(
   Predictor = names(coef(bayesian_model)),
   Estimate = coef(bayesian_model)
@@ -713,7 +705,7 @@ This paper looks into the demographic disparities of corruption
 perception in the Nigerian presidency, using survey data to examine
 variables like education, gender, age and urban versus rural residence.
 By looking at these factors, the study aims to inform targeted
-anti-corruption camapigns and policy making. The Bayesian modeling
+anti-corruption campaigns and policy making. The Bayesian modeling
 approach helps us understand the relationship between corruption
 perceptions and these demographic variables.
 
@@ -728,7 +720,7 @@ in this group are better equipped to identify systemic corruption but
 may lack the structural access to address it effectively
 [@transparency2019]. Individuals with higher education, such as
 university graduates, report more moderate corruption perceptions, this
-might largely beceause of their exposure to diverse viewpoints and
+might largely be because of their exposure to diverse viewpoints and
 greater access to institutional frameworks that allow for political
 skepticism. These suggest that anti-corruption campaigns targeting this
 moderately educated demographic should focus on actionable reforms and
@@ -901,7 +893,7 @@ The Probability Proportional to Population Size (PPPS) sampling method makes sur
 
 - Africa-Wide Generalization: While Afrobarometer provides national-level information, its findings cannot be generalized to the entire continent due to contextual variations.
 
-## Ethics considerations {#sec-ethics}
+## Ethical considerations {#sec-ethics}
 
 ### Overview of Afrobarometer’s Ethical Framework
 
@@ -911,7 +903,7 @@ Afrobarometer adheres to  ethical standards to ensure the protection and dignity
 - **Confidentiality and Anonymity**: Personal identifiers are removed during data processing, and data are stored securely to maintain respondent privacy.
 - **Cultural Sensitivity**: Questionnaires are carefully pre-tested and translated into local languages, ensuring they are culturally appropriate and easily understood.
 
-These practices align with established ethical principles in social science research, including those outlined by the World Association for Public Opinion Research [@waporethics].
+These practices are aligned with ethical principles in social science research, including those outlined by the World Association for Public Opinion Research [@waporethics].
 
 ### Ethical Challenges in Corruption Perception Surveys
 
@@ -948,20 +940,30 @@ Despite its robust framework, Afrobarometer’s approach could be improved in th
 
 The ethical considerations underpinning Afrobarometer’s methodology ensure the credibility and validity of its findings while safeguarding respondent dignity. However, addressing remaining gaps—such as the exclusion of certain populations and challenges in conflict zones—would further enhance the ethical rigor of corruption perception research in Africa. By adhering to established ethical frameworks and remaining responsive to emerging challenges, studies like this can continue to give important information while maintaining the highest ethical standards.To do my part in ensuring ethical standards are upheld, i have included a datasheet for the Afrobarometer dataset.
 
+# Amina's Story - A Personal Perspective {#sec-Data-Driven-Narrative-appendix}
+
+Amina is a 25-year-old woman living in Lagos, Nigeria. She works long hours at Balogun Market, navigating the daily challenges of urban life. She recently completed university, an achievement she’s proud of, and dreams of one day pursuing higher education. But like many young Nigerians, Amina often feels frustrated and disillusioned when it comes to governance and corruption.
+
+In conversations with her friends and colleagues, Amina’s voice often reflects anger and disappointment. She believes corruption in the presidency is widespread, a sentiment shared by many in her age group and educational background, as revealed in the survey data. Growing up in Lagos, where access to news and social media is plentiful, Amina has been exposed to stories of corruption and unfulfilled promises. This exposure has shaped her outlook, making her skeptical of government accountability.
+
+Amina’s experiences highlight the role of demographic factors in shaping perceptions of corruption. Her youth connects her to a generation that is more vocal about demanding accountability, while her urban residency exposes her to more information about governance. At the same time, her level of education gives her the tools to critically analyze these issues, though it also fuels her frustration when systemic problems persist.
+
+Reflecting on Amina’s story reminds us of the ethical responsibility to consider the individuals behind the data. Every statistic represents a life, a struggle, and a hope for change. By thinking of people like Amina, policymakers and campaigners can design anti-corruption initiatives that genuinely resonate with those they aim to serve. Ethical actions begin with understanding these lived realities, ensuring that interventions are meaningful and respectful of the diverse experiences within the population.
+
+
 
 # Additional data details
 
-@fig-demo The figure provides an overview of demographic variables and corruption perceptions from the Afrobarometer Nigeria Round 9 survey. Rural residents constitute a larger share of the sample, aligning with Nigeria's predominantly rural demographic landscape. Corruption perception data shows that "High Corruption" and "Some Corruption" dominate public opinion. The education level distribution highlights the prevalence of basic education, with the majority of respondents having completed secondary school. Finally, the age distribution indicates that the 25–34 age group is the most represented cohort, suggesting that young adults play a crucial role in shaping perceptions of corruption and governance in Nigeria.
-![Demographic Distributions of the Afrobarometer Data](combined_plot.png){#fig-demo width="120%"}
+This figure provides an overview of demographic variables and corruption perceptions from the Afrobarometer Nigeria Round 9 survey. Rural residents constitute a larger share of the sample, aligning with Nigeria's predominantly rural demographic landscape. Corruption perception data shows that "High Corruption" and "Some Corruption" dominate public opinion. The education level distribution highlights the prevalence of basic education, with the majority of respondents having completed secondary school. Finally, the age distribution indicates that the 25–34 age group is the most represented cohort.
+
+![Demographic Distributions of the Afrobarometer Data](combined_plot.png){#fig-demo width="110%"}
 
 
 
 
 
 # Model details {#sec-model-details}
-
 ## Posterior Predictive Check
-
 ```{r}
 #| eval: true
 #| echo: false
@@ -1061,8 +1063,8 @@ posterior_vs_prior(bayesian_model, pars = demographic_params, group_by_parameter
 
 ```
 
-## Diagnostics
 
+## Diagnostics
 ```{r}
 #| eval: true
 #| echo: false
