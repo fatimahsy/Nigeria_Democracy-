@@ -16,6 +16,7 @@ This project uses data from Afrobarometer's Nigeria Round 9 survey to analyze ho
 
 The repo is structured as:
 
+-   `other/Understanding Corruption Perceptions in Nigeria` contains the pdf version of the idealised survey created and can be found at[Idealized Survey](https://forms.gle/rhimtgYCfDMLGAyEA).
 -   `data/01-raw_data` contains the raw data as obtained from [Afrobarometer](https://www.afrobarometer.org/survey-resource/nigeria-round-9-data-2023/).
 -   `data/02-analysis_data` contains the cleaned dataset that was constructed.
 -   `model` contains fitted models.
@@ -25,6 +26,9 @@ The repo is structured as:
 -   `scripts` contains the R scripts used to simulate, download and clean data.
 -   `Data_Diary` is a Data Diary, documenting important steps, decisions, and reflections made during the analysis, offering a transparent view into the data cleaning, modeling, and ethical considerations that shaped my paper. 
 
+## 🗳️Idealized Survey 
+
+This [survey](https://forms.gle/HTKkga97UCzgLcbHA) is an idealized approach designed to address the research question more effectively. By incorporating a sampling method, targeted demographic questions, and carefully crafted survey items, it minimizes bias and enhances data reliability. The design prioritizes transparency and accuracy to better capture the nuances of corruption in Nigeria and its societal impacts.
 
 ## 🤖Statement on LLM usage
 
