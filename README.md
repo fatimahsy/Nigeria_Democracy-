@@ -45,4 +45,5 @@ This project adheres to ethical research principles, ensuring data privacy and i
 
 Thank you for exploring this project! Corruption is a complex challenge, but understanding how different demographics perceive it is a step toward meaningful change. If this repository sparks your curiosity, inspires your work, or raises questions, I’d love to hear from you. 
 
-                                                  ✨ "Small data, big impact—every insight counts." ✨
+
+✨ "Small data, big impact—every insight counts." ✨
