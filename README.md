@@ -16,7 +16,7 @@ This project uses data from Afrobarometer's Nigeria Round 9 survey to analyze ho
 
 The repo is structured as:
 
--   `other/Understanding Corruption Perceptions in Nigeria` contains the pdf version of the idealised survey created and can be found at[Idealized Survey](https://forms.gle/rhimtgYCfDMLGAyEA).
+-   `other/Corruption_Perceptions_Survey` contains the pdf version of the idealised survey created and the active survey link can be found at [Idealized Survey](https://forms.gle/rhimtgYCfDMLGAyEA).
 -   `data/01-raw_data` contains the raw data as obtained from [Afrobarometer](https://www.afrobarometer.org/survey-resource/nigeria-round-9-data-2023/).
 -   `data/02-analysis_data` contains the cleaned dataset that was constructed.
 -   `model` contains fitted models.
