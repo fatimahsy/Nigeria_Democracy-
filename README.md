@@ -19,7 +19,7 @@ The repo is structured as:
 -   `data/01-raw_data` contains the raw data as obtained from [Afrobarometer](https://www.afrobarometer.org/survey-resource/nigeria-round-9-data-2023/).
 -   `data/02-analysis_data` contains the cleaned dataset that was constructed.
 -   `model` contains fitted models.
--   `other` contains relevant literature, details about LLM chat interactions, and sketches.
+-   `other` contains relevant literature, details about LLM chat interactions,sketches and the datasheet.
 -   `other/datasheet` contains the datasheet for [Afrobarometer](https://www.afrobarometer.org/survey-resource/nigeria-round-9-data-2023/).
 -   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper.
 -   `scripts` contains the R scripts used to simulate, download and clean data.
@@ -28,7 +28,7 @@ The repo is structured as:
 
 ## 🤖Statement on LLM usage
 
-Aspects of the code and general debugging were written with the help of ChatGPT and the entire chat history is available in `inputs/llms/usage.txt`.
+Aspects of the code and general debugging were written with the help of ChatGPT and the entire chat history is available in `other/llms/usage.txt`.
 
 
 ## 🕊️ Ethical Considerations
